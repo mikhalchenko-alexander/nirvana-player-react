@@ -1,0 +1,38 @@
+group 'com.anahoret'
+version '1.0-SNAPSHOT'
+
+buildscript {
+    ext.kotlin_version = '1.1.4-3'
+    ext.kotlinx_html_js_version = '0.6.4'
+
+    repositories {
+        maven { url 'https://plugins.gradle.org/m2/' }
+        jcenter()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.moowork.gradle:gradle-node-plugin:1.2.0'
+    }
+}
+
+apply plugin: 'kotlin2js'
+apply plugin: 'kotlin-dce-js'
+apply plugin: 'com.moowork.node'
+
+repositories {
+    jcenter()
+    maven { url "http://dl.bintray.com/kotlin/kotlinx.html" }
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
+    compile "org.jetbrains.kotlinx:kotlinx-html-js:$kotlinx_html_js_version"
+}
+
+compileKotlin2Js.kotlinOptions.moduleKind = "amd"
+
+task buildBundle(type: NpmTask, dependsOn: [npmInstall, runDceKotlinJs]) {
+    args = ["run", "bundle"]
+}
+
+assemble.dependsOn buildBundle
