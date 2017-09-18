@@ -14,6 +14,7 @@ class PlayerView: ReactDOMComponent<PlayerView.Props, PlayerView.State>() {
   companion object: ReactComponentSpec<PlayerView, Props, State>
 
   init {
+    runtime.wrappers.require("Style/player.styl")
     state = State()
   }
 

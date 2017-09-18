@@ -1,12 +1,19 @@
 {
   "dependencies": {
-    "webpack": "3.6.0",
     "kotlin": "1.1.4",
     "kotlinx-html-js": "0.6.4",
     "react": "15.6.1",
     "react-dom": "15.6.1"
   },
+  "devDependencies": {
+    "css-loader": "^0.28.7",
+    "style-loader": "^0.18.2",
+    "stylus": "0.54.5",
+    "stylus-loader": "3.0.1",
+    "webpack": "3.6.0"
+  },
   "scripts": {
-    "bundle": "webpack"
+    "bundle": "webpack",
+    "bundleMin": "webpack --env.mode=prod"
   }
 }

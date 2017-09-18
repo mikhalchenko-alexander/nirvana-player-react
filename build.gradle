@@ -31,8 +31,12 @@ dependencies {
 
 compileKotlin2Js.kotlinOptions.moduleKind = "amd"
 
-task buildBundle(type: NpmTask, dependsOn: [npmInstall, runDceKotlinJs]) {
-    args = ["run", "bundle"]
+task buildBundleMin(type: NpmTask, dependsOn: [npmInstall, runDceKotlinJs]) {
+    inputs.files 'src'
+    args = ["run", "bundleMin"]
 }
 
-assemble.dependsOn buildBundle
+task buildBundle(type: NpmTask, dependsOn: [npmInstall, compileKotlin2Js]) {
+    inputs.files 'src'
+    args = ["run", "bundle"]
+}
