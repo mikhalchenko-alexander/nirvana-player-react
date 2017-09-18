@@ -29,6 +29,12 @@ dependencies {
     compile "org.jetbrains.kotlinx:kotlinx-html-js:$kotlinx_html_js_version"
 }
 
+kotlin {
+    experimental {
+        coroutines 'enable'
+    }
+}
+
 compileKotlin2Js.kotlinOptions.moduleKind = "amd"
 
 task buildBundleMin(type: NpmTask, dependsOn: [npmInstall, runDceKotlinJs]) {

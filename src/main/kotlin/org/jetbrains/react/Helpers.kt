@@ -1,4 +1,4 @@
-package react
+package org.jetbrains.react
 
 class ReactComponentNoState : RState
 

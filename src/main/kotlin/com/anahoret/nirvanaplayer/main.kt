@@ -1,9 +1,9 @@
 package com.anahoret.nirvanaplayer
 
-import react.dom.ReactDOM
+import org.jetbrains.react.dom.ReactDOM
 import kotlin.browser.document
-import react.dom.*
 import kotlinx.html.*
+import org.jetbrains.react.dom.render
 
 fun main(args: Array<String>) {
   ReactDOM.render(document.getElementById("player-root")) {

@@ -1,14 +1,14 @@
 package com.anahoret.nirvanaplayer
 
-import react.RProps
-import react.RState
+import org.jetbrains.react.RProps
+import org.jetbrains.react.RState
 
 import kotlinx.html.*
 import kotlinx.html.js.onClickFunction
 import org.w3c.dom.events.Event
-import react.ReactComponentSpec
-import react.dom.ReactDOMBuilder
-import react.dom.ReactDOMComponent
+import org.jetbrains.react.ReactComponentSpec
+import org.jetbrains.react.dom.ReactDOMBuilder
+import org.jetbrains.react.dom.ReactDOMComponent
 
 class PlayerView: ReactDOMComponent<PlayerView.Props, PlayerView.State>() {
   companion object: ReactComponentSpec<PlayerView, Props, State>
