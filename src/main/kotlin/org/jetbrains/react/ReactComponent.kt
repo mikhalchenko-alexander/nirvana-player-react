@@ -95,7 +95,7 @@ abstract class ReactComponent<P : RProps, S : RState> : ReactExtensionProvider {
 
   }
 
-  open fun componentDidUpdate(prevProps: P, prevState: S) {
+  open fun componentDidUpdate(prevProps: RProps, prevState: RState) {
 
   }
 
@@ -187,7 +187,10 @@ class ReactComponentWrapper<K, P : RProps, S : RState>(var props: P, val updater
   }
 
   @JsName("componentDidUpdate")
-  fun componentDidUpdate(prevProps: P, prevState: S) {
+  fun componentDidUpdate(prevProps: RProps, prevState: RState) {
+    subscribers.forEach {
+      it.reactComponentDidUpdate(prevProps, prevState)
+    }
     delegate.componentDidUpdate(prevProps, prevState)
   }
 

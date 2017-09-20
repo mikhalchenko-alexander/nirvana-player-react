@@ -5,6 +5,8 @@ import kotlin.properties.*
 interface ReactComponentLifecycleListener {
   fun reactComponentWillUpdate()
 
+  fun reactComponentDidUpdate(prevProps: RProps, prevState: RState)
+
   fun reactComponentWillUnmount()
 
   fun reactComponentWillMount()
@@ -24,6 +26,10 @@ abstract class BaseReactExtension(val provider: ReactExtensionProvider) {
       componentWillUpdate()
     }
 
+    override fun reactComponentDidUpdate(prevProps: RProps, prevState: RState) {
+      componentDidUpdate(prevProps, prevState)
+    }
+
     override fun reactComponentWillUnmount() {
       provider.unsubscribe(this)
       componentWillUnmount()
@@ -41,6 +47,8 @@ abstract class BaseReactExtension(val provider: ReactExtensionProvider) {
   init {
     provider.subscribe(listener)
   }
+
+  open fun componentDidUpdate(prevProps: RProps, prevState: RState) {}
 
   open fun componentWillUpdate() {}
 
