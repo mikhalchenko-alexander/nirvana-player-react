@@ -1,8 +1,8 @@
 package com.anahoret.flux
 
-sealed class FluxStore(val dispatcher: Dispatcher): TokenGenerator<Int> by IntTokenGenerator() {
+sealed class FluxStore(private val dispatcher: Dispatcher): TokenGenerator<Int> by IntTokenGenerator() {
 
-  val dispatchToken: Int
+  private val dispatchToken: Int
   
   private val callbacks = mutableListOf<Callback>()
   protected var changed: Boolean = false
@@ -63,7 +63,6 @@ object ChangeEvent: StoreEvent
 abstract class FluxReduceStore<T>(dispatcher: Dispatcher): FluxStore(dispatcher) {
 
   private var state: T? = null
-    private set
 
   fun getState(): T {
     val result = state ?: getInitialState()
@@ -73,9 +72,9 @@ abstract class FluxReduceStore<T>(dispatcher: Dispatcher): FluxStore(dispatcher)
     return result
   }
 
-  abstract fun getInitialState(): T
+  protected abstract fun getInitialState(): T
 
-  abstract fun reduce(state: T, action: Any): T
+  protected abstract fun reduce(state: T, action: Any): T
 
   override fun invokeOnDispatch(payload: Any) {
     changed = false
