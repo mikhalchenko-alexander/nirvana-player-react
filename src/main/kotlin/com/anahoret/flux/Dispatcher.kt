@@ -1,6 +1,6 @@
 package com.anahoret.flux
 
-class Dispatcher: TokenGenerator<Int> by IntTokenGenerator() {
+abstract class Dispatcher: TokenGenerator<Int> by IntTokenGenerator() {
 
   private var isDispatching = false
   private val callbacks = mutableListOf<Callback>()
