@@ -1,2 +1,34 @@
+html, body, #player-root, [data-reactroot]
+  height 100%
+
 body
-  background-color aliceblue
+  background-color #444
+  margin 0
+
+.player-view
+  display flex
+  width 100%
+  height 100%
+
+  .left-panel
+    display flex
+    flex-direction column
+    justify-content start
+    flex-grow 0.3
+    border-right 2px solid black
+
+    .player-controls
+      height 150px
+      border-bottom 2px solid black
+
+    .media-library
+      height 100%
+
+  .right-panel
+    display flex
+    flex-direction column
+    justify-content start
+    flex-grow 0.7
+
+    .playlist
+      height 100%
