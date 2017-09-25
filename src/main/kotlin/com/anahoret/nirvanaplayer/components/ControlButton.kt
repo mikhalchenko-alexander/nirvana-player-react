@@ -11,12 +11,12 @@ private class ControlButton: ReactDOMStatelessComponent<ControlButton.Props>() {
   companion object: ReactComponentSpec<ControlButton, Props, ReactComponentNoState>
 
   override fun ReactDOMBuilder.render() {
-    div("btn-player-control ${props.iconClass}") {
+    div("btn-player-control ${props.classes}") {
       children()
     }
   }
 
-  open class Props(var iconClass: String): RProps()
+  open class Props(var classes: String): RProps()
 
 }
 
@@ -26,10 +26,10 @@ class PlayPauseButton: ReactDOMStatelessComponent<PlayPauseButton.Props>() {
   override fun ReactDOMBuilder.render() {
     ControlButton {
       if (props.play) {
-        iconClass = "btn-play"
+        classes = "btn-play"
         +">"
       } else {
-        iconClass = "btn-pause"
+        classes = "btn-pause"
         +"||"
       }
     }
@@ -43,7 +43,7 @@ class StopButton: ReactDOMStatelessComponent<StopButton.Props>() {
 
   override fun ReactDOMBuilder.render() {
     ControlButton {
-      iconClass = "btn-stop"
+      classes = "btn-stop"
       +"|=|"
     }
   }
@@ -56,7 +56,7 @@ class PreviousButton: ReactDOMStatelessComponent<PreviousButton.Props>() {
 
   override fun ReactDOMBuilder.render() {
     ControlButton {
-      iconClass = "btn-previous"
+      classes = "btn-previous"
       +"|<"
     }
   }
@@ -69,7 +69,7 @@ class NextButton: ReactDOMStatelessComponent<NextButton.Props>() {
 
   override fun ReactDOMBuilder.render() {
     ControlButton {
-      iconClass = "btn-next"
+      classes = "btn-next"
       +">|"
     }
   }
