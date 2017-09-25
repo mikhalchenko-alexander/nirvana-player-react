@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "kotlin": "1.1.4",
+    "kotlin": "1.1.50",
     "kotlinx-html-js": "0.6.4",
     "react": "15.6.1",
     "react-dom": "15.6.1"

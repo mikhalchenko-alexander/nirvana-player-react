@@ -11,7 +11,7 @@ module.exports = function(env) {
   const MODE = getMode(env);
 
   const config = {
-    entry: path.resolve(__dirname, "build/classes/kotlin/main/nirvana-player-react_main.js"),
+    entry: path.resolve(__dirname, "build/classes/kotlin/main/nirvana-player-react.js"),
     output: {
       path: path.resolve(__dirname, "build"),
       filename: "bundle.js"
@@ -33,7 +33,7 @@ module.exports = function(env) {
   };
 
   if (MODE === 'prod') {
-    config.entry = path.resolve(__dirname, "build/classes/kotlin/main/min/nirvana-player-react_main.js");
+    config.entry = path.resolve(__dirname, "build/classes/kotlin/main/min/nirvana-player-react.js");
 
     config.resolve.alias.kotlin = path.resolve(__dirname, "build/classes/kotlin/main/min/kotlin.js");
     config.resolve.alias['kotlinx-html-js'] = path.resolve(__dirname, "build/classes/kotlin/main/min/kotlinx-html-js.js");
