@@ -1,8 +1,13 @@
+@require "_constants.styl"
+@require "_media-library.styl"
+@require "_player-controls.styl"
+@require "_playlist.styl"
+
 html, body, #player-root, [data-reactroot]
   height 100%
 
 body
-  background-color #444
+  background-color $block-background-color
   margin 0
 
 .player-view
@@ -14,21 +19,11 @@ body
     display flex
     flex-direction column
     justify-content start
-    flex-grow 0.3
-    border-right 2px solid black
-
-    .player-controls
-      height 150px
-      border-bottom 2px solid black
-
-    .media-library
-      height 100%
+    flex-grow 0
+    border-right $block-border-width solid $block-border-color
 
   .right-panel
     display flex
     flex-direction column
     justify-content start
-    flex-grow 0.7
-
-    .playlist
-      height 100%
+    flex-grow 1
