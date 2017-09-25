@@ -1,6 +1,7 @@
 package com.anahoret.nirvanaplayer
 
 import com.anahoret.flux.Dispatcher
+import com.anahoret.nirvanaplayer.components.Player
 import org.jetbrains.react.dom.ReactDOM
 import kotlin.browser.document
 import kotlinx.html.*
@@ -11,7 +12,7 @@ object PlayerDispatcher: Dispatcher()
 fun main(args: Array<String>) {
   ReactDOM.render(document.getElementById("player-root")) {
     div {
-      PlayerView {}
+      Player {}
     }
   }
 

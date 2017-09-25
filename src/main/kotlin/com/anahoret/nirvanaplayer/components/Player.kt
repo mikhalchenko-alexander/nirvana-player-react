@@ -1,4 +1,4 @@
-package com.anahoret.nirvanaplayer
+package com.anahoret.nirvanaplayer.components
 
 import com.anahoret.flux.ChangeEvent
 import com.anahoret.nirvanaplayer.stores.PlayerStore
@@ -10,8 +10,8 @@ import org.jetbrains.react.ReactComponentSpec
 import org.jetbrains.react.dom.ReactDOMBuilder
 import org.jetbrains.react.dom.ReactDOMComponent
 
-class PlayerView: ReactDOMComponent<PlayerView.Props, PlayerView.State>() {
-  companion object: ReactComponentSpec<PlayerView, Props, State>
+class Player: ReactDOMComponent<Player.Props, Player.State>() {
+  companion object: ReactComponentSpec<Player, Props, State>
 
   init {
     runtime.wrappers.require("Style/player.styl")
@@ -30,18 +30,12 @@ class PlayerView: ReactDOMComponent<PlayerView.Props, PlayerView.State>() {
   override fun ReactDOMBuilder.render() {
     div("player-view") {
       div("left-panel") {
-        div("player-controls") {
-
-        }
-        div("media-library") {
-
-        }
+        PlayerControls {}
+        MediaLibrary {}
       }
 
       div("right-panel") {
-        div("playlist") {
-          
-        }
+        Playlist {}
       }
 
     }
