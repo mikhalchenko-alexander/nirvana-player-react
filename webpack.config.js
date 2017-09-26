@@ -16,11 +16,17 @@ module.exports = function(env) {
       path: path.resolve(__dirname, "build"),
       filename: "bundle.js"
     },
+    devtool: '#source-map',
     module: {
-      loaders: [
+      rules: [
         {
           test: /\.styl$/,
           loader: 'style-loader!css-loader!stylus-loader'
+        },
+        {
+          test: /\.js$/,
+          use: ['source-map-loader'],
+          enforce: "pre"
         }
       ]
     },

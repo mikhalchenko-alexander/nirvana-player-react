@@ -35,7 +35,10 @@ kotlin {
     }
 }
 
-compileKotlin2Js.kotlinOptions.moduleKind = "amd"
+compileKotlin2Js {
+    kotlinOptions.moduleKind = "amd"
+    kotlinOptions.sourceMap = true
+}
 
 task buildBundleMin(type: NpmTask, dependsOn: [npmInstall, runDceKotlinJs]) {
     inputs.files 'src'
