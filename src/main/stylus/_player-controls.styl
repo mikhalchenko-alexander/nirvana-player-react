@@ -1,19 +1,29 @@
 @require "_constants.styl"
 
 .player-controls
+  align-items center
+  border-bottom $block-border-width solid $block-border-color
+  color $block-border-color
+  cursor pointer
   display flex
   flex-grow 0
   height 150px
-  width 500px
-  border-bottom $block-border-width solid $block-border-color
-  color $block-border-color
+  justify-content center
   padding 3px
+  width 500px
 
   .btn-player-control
-    width 50px
-    height 50px
-    margin 1px
+    align-items center
     border 2px solid $block-border-color
     display flex
+    height 50px
     justify-content center
-    align-items center
+    margin 1px
+    transition background 1s ease-out;
+    width 50px
+
+  .btn-player-control:hover
+    background rgba(0,0,0,.2)
+
+  .btn-player-control:active
+    background rgba(0,0,0,.5)
