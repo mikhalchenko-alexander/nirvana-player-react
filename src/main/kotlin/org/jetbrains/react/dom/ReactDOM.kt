@@ -7,6 +7,7 @@ import org.jetbrains.react.ReactElement
 import org.w3c.dom.*
 
 @JsModule("react-dom")
+@JsNonModule
 external object ReactDOM {
   fun render(element: ReactElement?, container: Element?)
   fun <P : RProps, S : RState> findDOMNode(component: ReactComponent<P, S>): Element

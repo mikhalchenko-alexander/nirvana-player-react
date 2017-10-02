@@ -27,6 +27,8 @@ repositories {
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
     compile "org.jetbrains.kotlinx:kotlinx-html-js:$kotlinx_html_js_version"
+
+    testCompile "org.jetbrains.kotlin:kotlin-test-js:$kotlin_version"
 }
 
 kotlin {
@@ -36,8 +38,12 @@ kotlin {
 }
 
 compileKotlin2Js {
-    kotlinOptions.moduleKind = "amd"
+    kotlinOptions.moduleKind = "umd"
     kotlinOptions.sourceMap = true
+}
+
+compileTestKotlin2Js {
+    kotlinOptions.moduleKind = "umd"
 }
 
 task buildBundleMin(type: NpmTask, dependsOn: [npmInstall, runDceKotlinJs]) {
