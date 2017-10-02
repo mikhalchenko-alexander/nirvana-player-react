@@ -10,10 +10,14 @@ import org.jetbrains.react.dom.render
 object PlayerDispatcher: Dispatcher()
 
 fun main(args: Array<String>) {
-  ReactDOM.render(document.getElementById("player-root")) {
-    div {
-      Player {}
+  val root = document.getElementById("player-root")
+  if (root != null) {
+    ReactDOM.render(root) {
+      div {
+        Player {}
+      }
     }
+  } else {
+    println("Can't find root node (#player-root).")
   }
-
 }
