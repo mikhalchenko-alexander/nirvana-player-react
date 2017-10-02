@@ -12,6 +12,7 @@ object PlayerDispatcher: Dispatcher()
 fun main(args: Array<String>) {
   val root = document.getElementById("player-root")
   if (root != null) {
+    runtime.wrappers.require("Style/player.styl")
     ReactDOM.render(root) {
       div {
         Player {}

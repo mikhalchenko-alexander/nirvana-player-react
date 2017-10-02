@@ -14,7 +14,6 @@ class Player: ReactDOMComponent<Player.Props, Player.State>() {
   companion object: ReactComponentSpec<Player, Props, State>
 
   init {
-    runtime.wrappers.require("Style/player.styl")
     state = State()
 
     PlayerStore.subscribe { event ->
