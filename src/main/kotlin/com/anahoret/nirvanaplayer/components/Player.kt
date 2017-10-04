@@ -1,7 +1,8 @@
 package com.anahoret.nirvanaplayer.components
 
 import com.anahoret.flux.ChangeEvent
-import com.anahoret.nirvanaplayer.stores.PlayerStore
+import com.anahoret.nirvanaplayer.stores.Folder
+import com.anahoret.nirvanaplayer.stores.MediaLibraryStore
 import org.jetbrains.react.RProps
 import org.jetbrains.react.RState
 
@@ -16,10 +17,10 @@ class Player: ReactDOMComponent<Player.Props, Player.State>() {
   init {
     state = State()
 
-    PlayerStore.subscribe { event ->
-      when (event) {
+    MediaLibraryStore.subscribe {
+      when (it) {
         is ChangeEvent -> setState {
-          tracks = PlayerStore.getState().tracks
+          folder = MediaLibraryStore.getState().rootFolder
         }
       }
     }
@@ -30,7 +31,9 @@ class Player: ReactDOMComponent<Player.Props, Player.State>() {
     div("player-view") {
       div("left-panel") {
         PlayerControls {}
-        MediaLibrary {}
+        MediaLibrary {
+          folder = state.folder
+        }
       }
 
       div("right-panel") {
@@ -40,7 +43,7 @@ class Player: ReactDOMComponent<Player.Props, Player.State>() {
     }
   }
 
-  class State(var tracks: List<String> = emptyList()): RState
+  class State(var folder: Folder? = null): RState
   class Props: RProps()
 
 }

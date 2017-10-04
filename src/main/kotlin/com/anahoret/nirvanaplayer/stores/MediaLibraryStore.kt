@@ -49,9 +49,11 @@ data class Folder(
     val match = this.id == folderDto.id
     val updatedLoaded = if (match) true else isLoaded
     val updatedFolders = if (match) folderDto.folders.map(::Folder) else folders.map { it.updated(folderDto) }
+    val updatedTracks = if (match) folderDto.tracks.map(::Track) else tracks
     return copy(
       isLoaded = updatedLoaded,
-      folders = updatedFolders
+      folders = updatedFolders,
+      tracks = updatedTracks
     )
   }
 }
