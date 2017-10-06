@@ -46,57 +46,5 @@ compileTestKotlin2Js {
     kotlinOptions.moduleKind = "umd"
 }
 
-task buildBundleMin(type: NpmTask, dependsOn: [npmInstall, runDceKotlinJs]) {
-    inputs.files 'src'
-    args = ["run", "bundleMin"]
-}
-
-task buildBundle(type: NpmTask, dependsOn: [npmInstall, compileKotlin2Js]) {
-    inputs.files 'src'
-    args = ["run", "bundle"]
-}
-
-node {
-    download = true
-}
-
-def libDir = "$buildDir/lib"
-def compileOutput = compileKotlin2Js.outputFile
-def testOutput = compileTestKotlin2Js.outputFile
-
-task populateNodeModules(type: Copy, dependsOn: [npmInstall, compileKotlin2Js]) {
-    configurations.testCompile.each {
-        from zipTree(it.absolutePath).matching { include '*.js' }
-    }
-
-    from files(
-        'node_modules/react/dist/react.js',
-        'node_modules/react-dom/dist/react-dom.js'
-    )
-
-    into libDir
-}
-
-karma {
-    files = [
-        "$libDir/kotlin.js",
-        "$libDir/react.js",
-        "$libDir/react-dom.js",
-        "$libDir/*.js",
-        compileOutput,
-        testOutput
-    ]
-    colors = true
-    profile 'default'
-
-    browsers = ['Chrome']
-    frameworks = ['jasmine']
-}
-
-karmaRun {
-    dependsOn compileTestKotlin2Js
-    dependsOn populateNodeModules
-}
-
-test.dependsOn karmaRun
-clean.dependsOn karmaClean
+apply from: 'buildBundle.gradle'
+apply from: 'testing.gradle'

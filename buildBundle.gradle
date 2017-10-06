@@ -1,0 +1,9 @@
+task buildBundleMin(type: NpmTask, dependsOn: [npmInstall, runDceKotlinJs]) {
+    inputs.files 'src'
+    args = ["run", "bundleMin"]
+}
+
+task buildBundle(type: NpmTask, dependsOn: [npmInstall, compileKotlin2Js]) {
+    inputs.files 'src'
+    args = ["run", "bundle"]
+}
