@@ -10,11 +10,15 @@ import com.anahoret.nirvanaplayer.stores.Track
 import kotlinx.html.div
 import kotlinx.html.js.onClickFunction
 import kotlinx.html.span
+import kotlinx.html.style
 import org.jetbrains.react.RProps
 import org.jetbrains.react.ReactComponentNoState
 import org.jetbrains.react.ReactComponentSpec
 import org.jetbrains.react.dom.ReactDOMBuilder
 import org.jetbrains.react.dom.ReactDOMStatelessComponent
+import runtime.wrappers.jsstyle
+
+const val TREE_NODE_MARGIN = 10
 
 class MediaLibrary: ReactDOMStatelessComponent<MediaLibrary.Props>() {
   companion object: ReactComponentSpec<MediaLibrary, Props, ReactComponentNoState>
@@ -29,6 +33,7 @@ class MediaLibrary: ReactDOMStatelessComponent<MediaLibrary.Props>() {
       props.folder?.let { rootFolder ->
         FolderView {
           folder = rootFolder
+          treeNodeMargin = 0
         }
       }
     }
@@ -41,47 +46,47 @@ class FolderView: ReactDOMStatelessComponent<FolderView.Props>() {
   companion object: ReactComponentSpec<FolderView, Props, ReactComponentNoState>
 
   override fun ReactDOMBuilder.render() {
-    with(props) {
-      div {
-        span {
-          +("${folder.name}${if (folder.isEmpty()) " (empty)" else ""}")
-          if (!folder.isLoaded) {
-            onClickFunction = {
-              loadFolder(folder.id)
-                  .then({ PlayerDispatcher.dispatch(MediaLibraryFolderLoaded(it)) })
-            }
+    div {
+      style = jsstyle { marginLeft = "${props.treeNodeMargin}px" }
+      span {
+        +("${props.folder.name}${if (props.folder.isEmpty()) " (empty)" else ""}")
+        if (!props.folder.isLoaded) {
+          onClickFunction = {
+            loadFolder(props.folder.id)
+                .then({ PlayerDispatcher.dispatch(MediaLibraryFolderLoaded(it)) })
           }
         }
-
-        folder.folders.forEach { subFolder ->
-          FolderView {
-            folder = subFolder
-          }
-        }
-
-        folder.tracks.forEach { t ->
-          TrackView {
-            track = t
-          }
-        }
-
       }
+
+      props.folder.folders.forEach { subFolder ->
+        FolderView {
+          folder = subFolder
+          treeNodeMargin = TREE_NODE_MARGIN
+        }
+      }
+
+      props.folder.tracks.forEach { t ->
+        TrackView {
+          track = t
+          treeNodeMargin = TREE_NODE_MARGIN
+        }
+      }
+
     }
   }
 
-  class Props(var folder: Folder): RProps()
+  class Props(var folder: Folder, var treeNodeMargin: Int): RProps()
 }
 
 class TrackView: ReactDOMStatelessComponent<TrackView.Props>() {
   companion object: ReactComponentSpec<TrackView, Props, ReactComponentNoState>
 
   override fun ReactDOMBuilder.render() {
-    with(props.track) {
       div {
-        +"$title ($duration)"
+        style = jsstyle { marginLeft = "${props.treeNodeMargin}px" }
+        +"${props.track.title} (${props.track.duration})"
       }
-    }
   }
 
-  class Props(var track: Track): RProps()
+  class Props(var track: Track, var treeNodeMargin: Int): RProps()
 }
