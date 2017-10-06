@@ -25,4 +25,5 @@ fun toPlainObjectStripNull(me: Any): dynamic {
   return obj
 }
 
-fun jsstyle(builder: dynamic.() -> Unit): String = js(builder) as String
+@Suppress("UnsafeCastFromDynamic")
+fun jsstyle(builder: dynamic.() -> Unit): String = js(builder)
