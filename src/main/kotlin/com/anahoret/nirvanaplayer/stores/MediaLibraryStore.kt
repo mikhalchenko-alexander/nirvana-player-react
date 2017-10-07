@@ -7,19 +7,22 @@ import com.anahoret.nirvanaplayer.dto.TrackDto
 
 class MediaLibraryRootLoaded(val folder: FolderDto)
 class MediaLibraryFolderLoaded(val folder: FolderDto)
+class MediaLibraryFolderOpenToggle(val folderId: Long)
 
-object MediaLibraryStore: FluxReduceStore<MediaLibraryState>(PlayerDispatcher) {
+object MediaLibraryStore : FluxReduceStore<MediaLibraryState>(PlayerDispatcher) {
 
-  override fun getInitialState(): MediaLibraryState {
-    return MediaLibraryState(null)
-  }
+  override fun getInitialState(): MediaLibraryState = MediaLibraryState(null)
 
   override fun reduce(state: MediaLibraryState, action: Any): MediaLibraryState =
-    when(action) {
+    when (action) {
       is MediaLibraryRootLoaded -> MediaLibraryState(Folder(action.folder))
+
       is MediaLibraryFolderLoaded -> if (state.rootFolder != null) {
         MediaLibraryState(state.rootFolder.updated(action.folder))
       } else MediaLibraryState(Folder(action.folder))
+
+      is MediaLibraryFolderOpenToggle -> MediaLibraryState(state.rootFolder?.toggleOpen(action.folderId))
+      
       else -> state
     }
 
@@ -28,14 +31,14 @@ object MediaLibraryStore: FluxReduceStore<MediaLibraryState>(PlayerDispatcher) {
 class MediaLibraryState(val rootFolder: Folder?)
 
 data class Folder(
-        val id: Long,
-        val name: String,
-        val isOpened: Boolean,
-        val isLoaded: Boolean,
-        val folders: List<Folder> = emptyList(),
-        val tracks: List<Track> = emptyList()
+  val id: Long,
+  val name: String,
+  val isOpened: Boolean,
+  val isLoaded: Boolean,
+  val folders: List<Folder> = emptyList(),
+  val tracks: List<Track> = emptyList()
 ) {
-  constructor(folderDto: FolderDto): this(
+  constructor(folderDto: FolderDto) : this(
     id = folderDto.id,
     name = folderDto.name,
     isOpened = false,
@@ -56,15 +59,23 @@ data class Folder(
       tracks = updatedTracks
     )
   }
+
+  fun toggleOpen(folderId: Long): Folder {
+    return if (id == folderId) copy(isOpened = !isOpened)
+    else {
+      val updatedFolders = folders.map { it.toggleOpen(folderId) }
+      copy(folders = updatedFolders)
+    }
+  }
 }
 
 class Track(
-        val id: Long,
-        val title: String,
-        val artist: String,
-        val duration: Int
+  val id: Long,
+  val title: String,
+  val artist: String,
+  val duration: Int
 ) {
-  constructor(trackDto: TrackDto): this(
+  constructor(trackDto: TrackDto) : this(
     id = trackDto.id,
     title = trackDto.title,
     artist = trackDto.artist,

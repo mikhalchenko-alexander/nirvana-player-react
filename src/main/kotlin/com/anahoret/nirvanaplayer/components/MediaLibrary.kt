@@ -3,10 +3,7 @@ package com.anahoret.nirvanaplayer.components
 import com.anahoret.nirvanaplayer.PlayerDispatcher
 import com.anahoret.nirvanaplayer.rpc.loadFolder
 import com.anahoret.nirvanaplayer.rpc.loadRoot
-import com.anahoret.nirvanaplayer.stores.Folder
-import com.anahoret.nirvanaplayer.stores.MediaLibraryFolderLoaded
-import com.anahoret.nirvanaplayer.stores.MediaLibraryRootLoaded
-import com.anahoret.nirvanaplayer.stores.Track
+import com.anahoret.nirvanaplayer.stores.*
 import kotlinx.html.div
 import kotlinx.html.js.onClickFunction
 import kotlinx.html.span
@@ -20,8 +17,8 @@ import runtime.wrappers.jsstyle
 
 const val TREE_NODE_MARGIN = 10
 
-class MediaLibrary: ReactDOMStatelessComponent<MediaLibrary.Props>() {
-  companion object: ReactComponentSpec<MediaLibrary, Props, ReactComponentNoState>
+class MediaLibrary : ReactDOMStatelessComponent<MediaLibrary.Props>() {
+  companion object : ReactComponentSpec<MediaLibrary, Props, ReactComponentNoState>
 
   init {
     loadRoot()
@@ -39,54 +36,60 @@ class MediaLibrary: ReactDOMStatelessComponent<MediaLibrary.Props>() {
     }
   }
 
-  class Props(var folder: Folder?): RProps()
+  class Props(var folder: Folder?) : RProps()
 }
 
-class FolderView: ReactDOMStatelessComponent<FolderView.Props>() {
-  companion object: ReactComponentSpec<FolderView, Props, ReactComponentNoState>
+class FolderView : ReactDOMStatelessComponent<FolderView.Props>() {
+  companion object : ReactComponentSpec<FolderView, Props, ReactComponentNoState>
 
   override fun ReactDOMBuilder.render() {
     div {
       style = jsstyle { marginLeft = "${props.treeNodeMargin}px" }
       span {
         +("${props.folder.name}${if (props.folder.isEmpty()) " (empty)" else ""}")
-        if (!props.folder.isLoaded) {
-          onClickFunction = {
+
+        onClickFunction = {
+          if (!props.folder.isLoaded) {
             loadFolder(props.folder.id)
-                .then({ PlayerDispatcher.dispatch(MediaLibraryFolderLoaded(it)) })
+              .then({ PlayerDispatcher.dispatch(MediaLibraryFolderLoaded(it)) })
+              .then({ PlayerDispatcher.dispatch(MediaLibraryFolderOpenToggle(props.folder.id)) })
+          } else {
+            PlayerDispatcher.dispatch(MediaLibraryFolderOpenToggle(props.folder.id))
           }
         }
       }
-
-      props.folder.folders.forEach { subFolder ->
-        FolderView {
-          folder = subFolder
-          treeNodeMargin = TREE_NODE_MARGIN
+      val openedClass = if (props.folder.isOpened) " opened" else ""
+      div("folder-content$openedClass") {
+        props.folder.folders.forEach { subFolder ->
+          FolderView {
+            folder = subFolder
+            treeNodeMargin = TREE_NODE_MARGIN
+          }
         }
-      }
 
-      props.folder.tracks.forEach { t ->
-        TrackView {
-          track = t
-          treeNodeMargin = TREE_NODE_MARGIN
+        props.folder.tracks.forEach { t ->
+          TrackView {
+            track = t
+            treeNodeMargin = TREE_NODE_MARGIN
+          }
         }
       }
 
     }
   }
 
-  class Props(var folder: Folder, var treeNodeMargin: Int): RProps()
+  class Props(var folder: Folder, var treeNodeMargin: Int) : RProps()
 }
 
-class TrackView: ReactDOMStatelessComponent<TrackView.Props>() {
-  companion object: ReactComponentSpec<TrackView, Props, ReactComponentNoState>
+class TrackView : ReactDOMStatelessComponent<TrackView.Props>() {
+  companion object : ReactComponentSpec<TrackView, Props, ReactComponentNoState>
 
   override fun ReactDOMBuilder.render() {
-      div {
-        style = jsstyle { marginLeft = "${props.treeNodeMargin}px" }
-        +"${props.track.title} (${props.track.duration})"
-      }
+    div {
+      style = jsstyle { marginLeft = "${props.treeNodeMargin}px" }
+      +"${props.track.title} (${props.track.duration})"
+    }
   }
 
-  class Props(var track: Track, var treeNodeMargin: Int): RProps()
+  class Props(var track: Track, var treeNodeMargin: Int) : RProps()
 }
