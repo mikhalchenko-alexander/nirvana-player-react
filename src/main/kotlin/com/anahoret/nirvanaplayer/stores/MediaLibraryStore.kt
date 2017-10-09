@@ -3,7 +3,7 @@ package com.anahoret.nirvanaplayer.stores
 import com.anahoret.flux.FluxReduceStore
 import com.anahoret.nirvanaplayer.PlayerDispatcher
 import com.anahoret.nirvanaplayer.dto.FolderDto
-import com.anahoret.nirvanaplayer.dto.TrackDto
+import com.anahoret.nirvanaplayer.stores.model.Folder
 
 class MediaLibraryRootLoaded(val folder: FolderDto)
 class MediaLibraryFolderLoaded(val folder: FolderDto)
@@ -29,58 +29,3 @@ object MediaLibraryStore : FluxReduceStore<MediaLibraryState>(PlayerDispatcher) 
 }
 
 class MediaLibraryState(val rootFolder: Folder?)
-
-data class Folder(
-  val id: Long,
-  val name: String,
-  val isOpened: Boolean,
-  val isLoaded: Boolean,
-  val folders: List<Folder> = emptyList(),
-  val tracks: List<Track> = emptyList()
-) {
-  constructor(folderDto: FolderDto) : this(
-    id = folderDto.id,
-    name = folderDto.name,
-    isOpened = false,
-    isLoaded = false,
-    folders = folderDto.folders.map(::Folder),
-    tracks = folderDto.tracks.map(::Track))
-
-  fun isEmpty(): Boolean = isLoaded && folders.isEmpty() && tracks.isEmpty()
-
-  fun updated(folderDto: FolderDto): Folder {
-    val match = this.id == folderDto.id
-    val updatedLoaded = if (match) true else isLoaded
-    val updatedFolders = if (match) folderDto.folders.map(::Folder) else folders.map { it.updated(folderDto) }
-    val updatedTracks = if (match) folderDto.tracks.map(::Track) else tracks
-    return copy(
-      isLoaded = updatedLoaded,
-      folders = updatedFolders,
-      tracks = updatedTracks
-    )
-  }
-
-  fun toggleOpen(folderId: Long): Folder {
-    return if (id == folderId) copy(isOpened = !isOpened)
-    else {
-      val updatedFolders = folders.map { it.toggleOpen(folderId) }
-      copy(folders = updatedFolders)
-    }
-  }
-}
-
-class Track(
-  val id: Long,
-  val title: String,
-  val artist: String,
-  val album: String,
-  val duration: Int
-) {
-  constructor(trackDto: TrackDto) : this(
-    id = trackDto.id,
-    title = trackDto.title,
-    artist = trackDto.artist,
-    album = trackDto.album,
-    duration = trackDto.duration
-  )
-}

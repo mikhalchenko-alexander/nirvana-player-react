@@ -1,6 +1,6 @@
 package com.anahoret.nirvanaplayer.components.playlist
 
-import com.anahoret.nirvanaplayer.stores.Track
+import com.anahoret.nirvanaplayer.stores.model.Track
 import kotlinx.html.*
 import org.jetbrains.react.RProps
 import org.jetbrains.react.ReactComponentNoState

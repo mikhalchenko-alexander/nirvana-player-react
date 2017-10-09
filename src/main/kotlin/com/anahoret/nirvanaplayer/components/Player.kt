@@ -3,9 +3,10 @@ package com.anahoret.nirvanaplayer.components
 import com.anahoret.flux.ChangeEvent
 import com.anahoret.nirvanaplayer.components.medialibrary.MediaLibrary
 import com.anahoret.nirvanaplayer.components.playlist.Playlist
-import com.anahoret.nirvanaplayer.stores.Folder
+import com.anahoret.nirvanaplayer.stores.model.Folder
 import com.anahoret.nirvanaplayer.stores.MediaLibraryStore
-import com.anahoret.nirvanaplayer.stores.Track
+import com.anahoret.nirvanaplayer.stores.PlaylistStore
+import com.anahoret.nirvanaplayer.stores.model.Track
 import org.jetbrains.react.RProps
 import org.jetbrains.react.RState
 
@@ -24,6 +25,14 @@ class Player: ReactDOMComponent<Player.Props, Player.State>() {
       when (it) {
         is ChangeEvent -> setState {
           folder = MediaLibraryStore.getState().rootFolder
+        }
+      }
+    }
+
+    PlaylistStore.subscribe {
+      when(it) {
+        is ChangeEvent -> setState {
+          playlistTracks = PlaylistStore.getState().tracks
         }
       }
     }

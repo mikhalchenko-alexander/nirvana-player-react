@@ -1,6 +1,6 @@
 package com.anahoret.nirvanaplayer.components.medialibrary
 
-import com.anahoret.nirvanaplayer.stores.Track
+import com.anahoret.nirvanaplayer.stores.model.Track
 import com.anahoret.nirvanaplayer.toTimeString
 import kotlinx.html.div
 import kotlinx.html.style

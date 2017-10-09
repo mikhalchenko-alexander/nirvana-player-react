@@ -2,7 +2,7 @@ package com.anahoret.nirvanaplayer.components.medialibrary
 
 import com.anahoret.nirvanaplayer.PlayerDispatcher
 import com.anahoret.nirvanaplayer.rpc.loadFolder
-import com.anahoret.nirvanaplayer.stores.Folder
+import com.anahoret.nirvanaplayer.stores.model.Folder
 import com.anahoret.nirvanaplayer.stores.MediaLibraryFolderLoaded
 import com.anahoret.nirvanaplayer.stores.MediaLibraryFolderOpenToggle
 import kotlinx.html.div
@@ -40,14 +40,14 @@ class FolderView: ReactDOMStatelessComponent<FolderView.Props>() {
         props.folder.folders.forEach { subFolder ->
           FolderView {
             folder = subFolder
-            treeNodeMargin = TREE_NODE_MARGIN
+            treeNodeMargin = MediaLibrary.TREE_NODE_MARGIN
           }
         }
 
         props.folder.tracks.forEach { t ->
           TrackView {
             track = t
-            treeNodeMargin = TREE_NODE_MARGIN
+            treeNodeMargin = MediaLibrary.TREE_NODE_MARGIN
           }
         }
       }

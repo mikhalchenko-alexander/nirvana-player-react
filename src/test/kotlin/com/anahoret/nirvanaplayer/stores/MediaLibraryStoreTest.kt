@@ -1,6 +1,7 @@
 package com.anahoret.nirvanaplayer.stores
 
 import com.anahoret.nirvanaplayer.dto.FolderDto
+import com.anahoret.nirvanaplayer.stores.model.Folder
 import kotlin.test.*
 
 class MediaLibraryStoreTest {
@@ -13,28 +14,28 @@ class MediaLibraryStoreTest {
   @Test
   fun storeTest() {
     val initialFolder = Folder(
-        id = 1,
-        name = "Folder",
+      id = 1,
+      name = "Folder",
+      isLoaded = false,
+      isOpened = false,
+      folders = emptyList(),
+      tracks = emptyList()
+    )
+
+    val expected = Folder(
+      id = 1,
+      name = "Folder",
+      isLoaded = true,
+      isOpened = false,
+      folders = listOf(Folder(
+        id = 2,
+        name = "Nested",
         isLoaded = false,
         isOpened = false,
         folders = emptyList(),
         tracks = emptyList()
-    )
-
-    val expected = Folder(
-        id = 1,
-        name = "Folder",
-        isLoaded = true,
-        isOpened = false,
-        folders = listOf(Folder(
-            id = 2,
-            name = "Nested",
-            isLoaded = false,
-            isOpened = false,
-            folders = emptyList(),
-            tracks = emptyList()
-        )),
-        tracks = emptyList()
+      )),
+      tracks = emptyList()
     )
 
     val folderDto = FolderDto(
