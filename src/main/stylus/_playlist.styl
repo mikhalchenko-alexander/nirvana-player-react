@@ -1,2 +1,21 @@
+@import "_constants.styl"
+
 .playlist
   height 100%
+  padding 3px
+  overflow-y scroll
+
+  .tracks
+    width 100%
+    text-align left
+    border-spacing: 0
+
+    th
+      border-bottom 1px solid $block-border-color
+
+    th, td
+      width 25%
+
+    tbody
+      tr:nth-child(odd)
+        background-color darken($block-background-color, 20%)

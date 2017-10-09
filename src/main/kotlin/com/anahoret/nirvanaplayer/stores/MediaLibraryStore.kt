@@ -73,12 +73,14 @@ class Track(
   val id: Long,
   val title: String,
   val artist: String,
+  val album: String,
   val duration: Int
 ) {
   constructor(trackDto: TrackDto) : this(
     id = trackDto.id,
     title = trackDto.title,
     artist = trackDto.artist,
+    album = trackDto.album,
     duration = trackDto.duration
   )
 }

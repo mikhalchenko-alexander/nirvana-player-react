@@ -1,8 +1,11 @@
 package com.anahoret.nirvanaplayer.components
 
 import com.anahoret.flux.ChangeEvent
+import com.anahoret.nirvanaplayer.components.medialibrary.MediaLibrary
+import com.anahoret.nirvanaplayer.components.playlist.Playlist
 import com.anahoret.nirvanaplayer.stores.Folder
 import com.anahoret.nirvanaplayer.stores.MediaLibraryStore
+import com.anahoret.nirvanaplayer.stores.Track
 import org.jetbrains.react.RProps
 import org.jetbrains.react.RState
 
@@ -37,13 +40,15 @@ class Player: ReactDOMComponent<Player.Props, Player.State>() {
       }
 
       div("right-panel") {
-        Playlist {}
+        Playlist {
+          tracks = state.playlistTracks
+        }
       }
 
     }
   }
 
-  class State(var folder: Folder? = null): RState
+  class State(var folder: Folder? = null, var playlistTracks: List<Track> = emptyList()): RState
   class Props: RProps()
 
 }

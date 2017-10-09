@@ -30,13 +30,13 @@ fun loadFolder(folderId: Long): Promise<FolderDto> = async {
     )
 
     2L -> FolderDto(id = 2, name = "ACDC", folders = emptyList(), tracks = listOf(
-        TrackDto(id = 1, title = "Thunderstruck", artist = "ACDC", duration = 120),
-        TrackDto(id = 2, title = "High voltage", artist = "ACDC", duration = 255)
+        TrackDto(id = 1, title = "Thunderstruck", artist = "ACDC", album = "The Razor's edge", duration = 120),
+        TrackDto(id = 2, title = "High voltage", artist = "ACDC", album = "High voltage", duration = 255)
     ))
 
     3L -> FolderDto(id = 3, name = "Black sabbath", folders = emptyList(), tracks = listOf(
-        TrackDto(id = 3, title = "Iron man", artist = "Black sabbath", duration = 230),
-        TrackDto(id = 4, title = "Paranoid", artist = "Black sabbath", duration = 245)
+        TrackDto(id = 3, title = "Iron man", artist = "Black sabbath", album = "Paranoid", duration = 230),
+        TrackDto(id = 4, title = "Paranoid", artist = "Black sabbath", album = "Paranoid", duration = 245)
     ))
 
     else -> throw RuntimeException("Folder $folderId not found.")
@@ -54,5 +54,6 @@ fun parseTrackDto(json: dynamic): TrackDto = TrackDto(
     id = json.id as Long,
     title = json.title as String,
     artist = json.artist as String,
+    album = json.album as String,
     duration = json.duration as Int
 )
