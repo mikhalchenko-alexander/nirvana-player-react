@@ -2,7 +2,7 @@ package com.anahoret.nirvanaplayer.stores.model
 
 import com.anahoret.nirvanaplayer.dto.TrackDto
 
-class Track(
+data class Track(
   val id: Long,
   val title: String,
   val artist: String,
