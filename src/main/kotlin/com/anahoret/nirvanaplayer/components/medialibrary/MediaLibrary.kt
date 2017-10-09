@@ -1,9 +1,9 @@
 package com.anahoret.nirvanaplayer.components.medialibrary
 
 import com.anahoret.nirvanaplayer.PlayerDispatcher
-import com.anahoret.nirvanaplayer.rpc.loadRoot
+import com.anahoret.nirvanaplayer.rpc.loadMediaLibrary
+import com.anahoret.nirvanaplayer.stores.MediaLibraryLoaded
 import com.anahoret.nirvanaplayer.stores.model.Folder
-import com.anahoret.nirvanaplayer.stores.MediaLibraryRootLoaded
 import kotlinx.html.div
 import org.jetbrains.react.RProps
 import org.jetbrains.react.ReactComponentNoState
@@ -17,8 +17,8 @@ class MediaLibrary: ReactDOMStatelessComponent<MediaLibrary.Props>() {
   }
 
   init {
-    loadRoot()
-      .then({ PlayerDispatcher.dispatch(MediaLibraryRootLoaded(it)) })
+    loadMediaLibrary()
+      .then({ PlayerDispatcher.dispatch(MediaLibraryLoaded(it)) })
   }
 
   override fun ReactDOMBuilder.render() {

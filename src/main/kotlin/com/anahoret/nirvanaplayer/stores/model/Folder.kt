@@ -6,7 +6,6 @@ data class Folder(
   val id: Long,
   val name: String,
   val isOpened: Boolean,
-  val isLoaded: Boolean,
   val folders: List<Folder> = emptyList(),
   val tracks: List<Track> = emptyList()
 ) {
@@ -14,23 +13,10 @@ data class Folder(
     id = folderDto.id,
     name = folderDto.name,
     isOpened = false,
-    isLoaded = false,
     folders = folderDto.folders.map(::Folder),
     tracks = folderDto.tracks.map(::Track))
 
-  fun isEmpty(): Boolean = isLoaded && folders.isEmpty() && tracks.isEmpty()
-
-  fun updated(folderDto: FolderDto): Folder {
-    val match = this.id == folderDto.id
-    val updatedLoaded = if (match) true else isLoaded
-    val updatedFolders = if (match) folderDto.folders.map(::Folder) else folders.map { it.updated(folderDto) }
-    val updatedTracks = if (match) folderDto.tracks.map(::Track) else tracks
-    return copy(
-      isLoaded = updatedLoaded,
-      folders = updatedFolders,
-      tracks = updatedTracks
-    )
-  }
+  fun isEmpty(): Boolean = folders.isEmpty() && tracks.isEmpty()
 
   fun toggleOpen(folderId: Long): Folder {
     return if (id == folderId) copy(isOpened = !isOpened)

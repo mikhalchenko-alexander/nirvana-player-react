@@ -3,6 +3,7 @@ package com.anahoret.nirvanaplayer.components
 import com.anahoret.flux.ChangeEvent
 import com.anahoret.nirvanaplayer.components.medialibrary.MediaLibrary
 import com.anahoret.nirvanaplayer.components.playlist.Playlist
+import com.anahoret.nirvanaplayer.stores.DragAndDropStore
 import com.anahoret.nirvanaplayer.stores.model.Folder
 import com.anahoret.nirvanaplayer.stores.MediaLibraryStore
 import com.anahoret.nirvanaplayer.stores.PlaylistStore
@@ -36,6 +37,8 @@ class Player: ReactDOMComponent<Player.Props, Player.State>() {
         }
       }
     }
+
+    DragAndDropStore.subscribe {  }
 
   }
 

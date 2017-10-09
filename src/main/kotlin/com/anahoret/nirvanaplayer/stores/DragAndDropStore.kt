@@ -8,10 +8,10 @@ import com.anahoret.nirvanaplayer.stores.model.Track
 class DragAndDropState(var currentDraggable: Draggable? = null)
 
 interface Draggable
-class DraggableTrack(val track: Track): Draggable
-class DraggableFolder(val folder: Folder): Draggable
+data class DraggableTrack(val track: Track): Draggable
+data class DraggableFolder(val folder: Folder): Draggable
 
-class DragStarted(val draggable: Draggable)
+data class DragStarted(val draggable: Draggable)
 class DragEnded
 
 object DragAndDropStore: FluxReduceStore<DragAndDropState>(PlayerDispatcher) {

@@ -1,11 +1,9 @@
 package com.anahoret.nirvanaplayer.components.medialibrary
 
 import com.anahoret.nirvanaplayer.PlayerDispatcher
-import com.anahoret.nirvanaplayer.rpc.loadFolder
 import com.anahoret.nirvanaplayer.stores.DragStarted
 import com.anahoret.nirvanaplayer.stores.DraggableFolder
 import com.anahoret.nirvanaplayer.stores.model.Folder
-import com.anahoret.nirvanaplayer.stores.MediaLibraryFolderLoaded
 import com.anahoret.nirvanaplayer.stores.MediaLibraryFolderOpenToggle
 import kotlinx.html.div
 import kotlinx.html.js.onClickFunction
@@ -29,13 +27,7 @@ class FolderView: ReactDOMStatelessComponent<FolderView.Props>() {
         +("${props.folder.name}${if (props.folder.isEmpty()) " (empty)" else ""}")
 
         onClickFunction = {
-          if (!props.folder.isLoaded) {
-            loadFolder(props.folder.id)
-              .then({ PlayerDispatcher.dispatch(MediaLibraryFolderLoaded(it)) })
-              .then({ PlayerDispatcher.dispatch(MediaLibraryFolderOpenToggle(props.folder.id)) })
-          } else {
-            PlayerDispatcher.dispatch(MediaLibraryFolderOpenToggle(props.folder.id))
-          }
+          PlayerDispatcher.dispatch(MediaLibraryFolderOpenToggle(props.folder.id))
         }
       }
       val openedClass = if (props.folder.isOpened) " opened" else ""

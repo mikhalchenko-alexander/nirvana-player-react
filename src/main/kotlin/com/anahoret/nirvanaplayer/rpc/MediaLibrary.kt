@@ -5,42 +5,22 @@ import com.anahoret.nirvanaplayer.dto.TrackDto
 import kotlinx.coroutines.experimental.async
 import kotlin.js.Promise
 
-fun loadRoot(): Promise<FolderDto> = async {
+fun loadMediaLibrary(): Promise<FolderDto> = async {
   FolderDto(
-      id = 1,
-      name = "<ROOT>",
-      folders = listOf(
-          FolderDto(id = 2, name = "ACDC", folders = emptyList(), tracks = emptyList()),
-          FolderDto(id = 3, name = "Black sabbath", folders = emptyList(), tracks = emptyList())
-      ),
-      tracks = emptyList()
-  )
-}
-
-fun loadFolder(folderId: Long): Promise<FolderDto> = async {
-  when (folderId) {
-    1L -> FolderDto(
-        id = folderId,
-        name = "<ROOT>",
-        folders = listOf(
-            FolderDto(id = 2, name = "ACDC", folders = emptyList(), tracks = emptyList()),
-            FolderDto(id = 3, name = "Black sabbath", folders = emptyList(), tracks = emptyList())
-        ),
-        tracks = emptyList()
-    )
-
-    2L -> FolderDto(id = 2, name = "ACDC", folders = emptyList(), tracks = listOf(
+    id = 1,
+    name = "<ROOT>",
+    folders = listOf(
+      FolderDto(id = 2, name = "ACDC", folders = emptyList(), tracks = listOf(
         TrackDto(id = 1, title = "Thunderstruck", artist = "ACDC", album = "The Razor's edge", duration = 120),
         TrackDto(id = 2, title = "High voltage", artist = "ACDC", album = "High voltage", duration = 255)
-    ))
-
-    3L -> FolderDto(id = 3, name = "Black sabbath", folders = emptyList(), tracks = listOf(
+      )),
+      FolderDto(id = 3, name = "Black sabbath", folders = emptyList(), tracks = listOf(
         TrackDto(id = 3, title = "Iron man", artist = "Black sabbath", album = "Paranoid", duration = 230),
         TrackDto(id = 4, title = "Paranoid", artist = "Black sabbath", album = "Paranoid", duration = 245)
-    ))
-
-    else -> throw RuntimeException("Folder $folderId not found.")
-  }
+      ))
+    ),
+    tracks = emptyList()
+  )
 }
 
 fun parseFolderDto(json: dynamic): FolderDto = FolderDto(
