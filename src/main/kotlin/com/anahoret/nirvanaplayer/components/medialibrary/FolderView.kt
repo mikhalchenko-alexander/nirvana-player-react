@@ -2,11 +2,14 @@ package com.anahoret.nirvanaplayer.components.medialibrary
 
 import com.anahoret.nirvanaplayer.PlayerDispatcher
 import com.anahoret.nirvanaplayer.rpc.loadFolder
+import com.anahoret.nirvanaplayer.stores.DragStarted
+import com.anahoret.nirvanaplayer.stores.DraggableFolder
 import com.anahoret.nirvanaplayer.stores.model.Folder
 import com.anahoret.nirvanaplayer.stores.MediaLibraryFolderLoaded
 import com.anahoret.nirvanaplayer.stores.MediaLibraryFolderOpenToggle
 import kotlinx.html.div
 import kotlinx.html.js.onClickFunction
+import kotlinx.html.js.onMouseDownFunction
 import kotlinx.html.span
 import kotlinx.html.style
 import org.jetbrains.react.RProps
@@ -52,6 +55,11 @@ class FolderView: ReactDOMStatelessComponent<FolderView.Props>() {
         }
       }
 
+      onMouseDownFunction = { e->
+        e.preventDefault()
+        e.stopPropagation()
+        PlayerDispatcher.dispatch(DragStarted(DraggableFolder(props.folder)))
+      }
     }
   }
 

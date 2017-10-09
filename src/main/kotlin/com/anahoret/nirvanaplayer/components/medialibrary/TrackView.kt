@@ -1,11 +1,12 @@
 package com.anahoret.nirvanaplayer.components.medialibrary
 
 import com.anahoret.nirvanaplayer.PlayerDispatcher
-import com.anahoret.nirvanaplayer.stores.TracksAddedAction
+import com.anahoret.nirvanaplayer.stores.DragStarted
+import com.anahoret.nirvanaplayer.stores.DraggableTrack
 import com.anahoret.nirvanaplayer.stores.model.Track
 import com.anahoret.nirvanaplayer.toTimeString
 import kotlinx.html.div
-import kotlinx.html.js.onClickFunction
+import kotlinx.html.js.onMouseDownFunction
 import kotlinx.html.style
 import org.jetbrains.react.RProps
 import org.jetbrains.react.ReactComponentNoState
@@ -22,7 +23,10 @@ class TrackView: ReactDOMStatelessComponent<TrackView.Props>() {
       style = jsstyle { marginLeft = "${props.treeNodeMargin}px" }
       +"${props.track.title} (${props.track.duration.toTimeString()})"
 
-      onClickFunction = { PlayerDispatcher.dispatch(TracksAddedAction(props.track)) }
+      onMouseDownFunction = { e ->
+        e.preventDefault()
+        PlayerDispatcher.dispatch(DragStarted(DraggableTrack(props.track)))
+      }
     }
   }
 
