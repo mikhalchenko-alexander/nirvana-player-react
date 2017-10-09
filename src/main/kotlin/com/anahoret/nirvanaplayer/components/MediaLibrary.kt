@@ -3,6 +3,11 @@ package com.anahoret.nirvanaplayer.components
 import com.anahoret.nirvanaplayer.PlayerDispatcher
 import com.anahoret.nirvanaplayer.rpc.loadFolder
 import com.anahoret.nirvanaplayer.rpc.loadRoot
+import com.anahoret.nirvanaplayer.stores.Folder
+import com.anahoret.nirvanaplayer.stores.MediaLibraryFolderLoaded
+import com.anahoret.nirvanaplayer.stores.MediaLibraryRootLoaded
+import com.anahoret.nirvanaplayer.stores.Track
+import com.anahoret.nirvanaplayer.toTimeString
 import com.anahoret.nirvanaplayer.stores.*
 import kotlinx.html.div
 import kotlinx.html.js.onClickFunction
@@ -17,8 +22,8 @@ import runtime.wrappers.jsstyle
 
 const val TREE_NODE_MARGIN = 10
 
-class MediaLibrary : ReactDOMStatelessComponent<MediaLibrary.Props>() {
-  companion object : ReactComponentSpec<MediaLibrary, Props, ReactComponentNoState>
+class MediaLibrary: ReactDOMStatelessComponent<MediaLibrary.Props>() {
+  companion object: ReactComponentSpec<MediaLibrary, Props, ReactComponentNoState>
 
   init {
     loadRoot()
@@ -36,11 +41,11 @@ class MediaLibrary : ReactDOMStatelessComponent<MediaLibrary.Props>() {
     }
   }
 
-  class Props(var folder: Folder?) : RProps()
+  class Props(var folder: Folder?): RProps()
 }
 
-class FolderView : ReactDOMStatelessComponent<FolderView.Props>() {
-  companion object : ReactComponentSpec<FolderView, Props, ReactComponentNoState>
+class FolderView: ReactDOMStatelessComponent<FolderView.Props>() {
+  companion object: ReactComponentSpec<FolderView, Props, ReactComponentNoState>
 
   override fun ReactDOMBuilder.render() {
     div {
@@ -78,18 +83,18 @@ class FolderView : ReactDOMStatelessComponent<FolderView.Props>() {
     }
   }
 
-  class Props(var folder: Folder, var treeNodeMargin: Int) : RProps()
+  class Props(var folder: Folder, var treeNodeMargin: Int): RProps()
 }
 
-class TrackView : ReactDOMStatelessComponent<TrackView.Props>() {
-  companion object : ReactComponentSpec<TrackView, Props, ReactComponentNoState>
+class TrackView: ReactDOMStatelessComponent<TrackView.Props>() {
+  companion object: ReactComponentSpec<TrackView, Props, ReactComponentNoState>
 
   override fun ReactDOMBuilder.render() {
     div {
       style = jsstyle { marginLeft = "${props.treeNodeMargin}px" }
-      +"${props.track.title} (${props.track.duration})"
+      +"${props.track.title} (${props.track.duration.toTimeString()})"
     }
   }
 
-  class Props(var track: Track, var treeNodeMargin: Int) : RProps()
+  class Props(var track: Track, var treeNodeMargin: Int): RProps()
 }
