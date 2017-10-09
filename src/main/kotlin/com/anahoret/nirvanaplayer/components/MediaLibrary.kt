@@ -48,9 +48,9 @@ class FolderView: ReactDOMStatelessComponent<FolderView.Props>() {
   companion object: ReactComponentSpec<FolderView, Props, ReactComponentNoState>
 
   override fun ReactDOMBuilder.render() {
-    div {
+    div("folder") {
       style = jsstyle { marginLeft = "${props.treeNodeMargin}px" }
-      span {
+      span("name") {
         +("${props.folder.name}${if (props.folder.isEmpty()) " (empty)" else ""}")
 
         onClickFunction = {
@@ -90,7 +90,7 @@ class TrackView: ReactDOMStatelessComponent<TrackView.Props>() {
   companion object: ReactComponentSpec<TrackView, Props, ReactComponentNoState>
 
   override fun ReactDOMBuilder.render() {
-    div {
+    div("track") {
       style = jsstyle { marginLeft = "${props.treeNodeMargin}px" }
       +"${props.track.title} (${props.track.duration.toTimeString()})"
     }
