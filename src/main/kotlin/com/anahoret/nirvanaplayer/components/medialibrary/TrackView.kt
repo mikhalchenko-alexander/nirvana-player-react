@@ -25,6 +25,7 @@ class TrackView: ReactDOMStatelessComponent<TrackView.Props>() {
 
       onMouseDownFunction = { e ->
         e.preventDefault()
+        e.stopPropagation()
         PlayerDispatcher.dispatch(DragStarted(DraggableTrack(props.track)))
       }
     }
