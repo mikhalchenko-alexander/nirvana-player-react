@@ -25,4 +25,13 @@ data class Folder(
       copy(folders = updatedFolders)
     }
   }
+
+  fun findTrackById(trackId: Long): Track? = flattenTracks().find { it.id == trackId }
+  fun findFolderById(folderId: Long): Folder? {
+    return if (id == folderId) this
+      else folders.fold<Folder, Folder?>(null, { acc, f -> acc ?: f.findFolderById(folderId) })
+  }
+
+  fun flattenTracks(): List<Track> = tracks + folders.flatMap(Folder::flattenTracks)
+
 }

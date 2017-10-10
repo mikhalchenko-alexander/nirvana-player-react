@@ -2,15 +2,16 @@ package com.anahoret.nirvanaplayer.components.playlist
 
 import com.anahoret.nirvanaplayer.PlayerDispatcher
 import com.anahoret.nirvanaplayer.stores.*
-import com.anahoret.nirvanaplayer.stores.model.Folder
 import com.anahoret.nirvanaplayer.stores.model.Track
 import kotlinx.html.*
-import kotlinx.html.js.onMouseUpFunction
+import kotlinx.html.js.onDragOverFunction
+import kotlinx.html.js.onDropFunction
 import org.jetbrains.react.RProps
 import org.jetbrains.react.ReactComponentNoState
 import org.jetbrains.react.ReactComponentSpec
 import org.jetbrains.react.dom.ReactDOMBuilder
 import org.jetbrains.react.dom.ReactDOMStatelessComponent
+import org.w3c.dom.DragEventInit
 
 class Playlist: ReactDOMStatelessComponent<Playlist.Props>() {
   companion object: ReactComponentSpec<Playlist, Props, ReactComponentNoState>
@@ -35,20 +36,33 @@ class Playlist: ReactDOMStatelessComponent<Playlist.Props>() {
         }
       }
 
-      onMouseUpFunction = {
-        val draggable = DragAndDropStore.getState().currentDraggable
-        PlayerDispatcher.dispatch(DragEnded())
-        draggable.let {
-          when (it) {
-            is DraggableTrack -> PlayerDispatcher.dispatch(TracksAddedAction(it.track))
-            is DraggableFolder -> PlayerDispatcher.dispatch(TracksAddedAction(flattenTracks(it.folder)))
+      onDragOverFunction = { e -> e.preventDefault() }
+
+      onDropFunction = { e ->
+        e.preventDefault()
+
+        val dragEvent = e as DragEventInit
+        dragEvent.dataTransfer?.apply {
+          val draggableType = getData("type")
+          when (draggableType) {
+            "track" -> {
+              val trackId = getData("id").toLong()
+              MediaLibraryStore.getState().rootFolder?.findTrackById(trackId)?.let {
+                PlayerDispatcher.dispatch(TracksAddedAction(it))
+              }
+            }
+
+            "folder" -> {
+              val folderId = getData("id").toLong()
+              MediaLibraryStore.getState().rootFolder?.findFolderById(folderId)?.let {
+                PlayerDispatcher.dispatch(TracksAddedAction(it.flattenTracks()))
+              }
+            }
           }
         }
       }
     }
   }
-
-  private fun flattenTracks(folder: Folder): List<Track> = folder.tracks + folder.folders.flatMap(::flattenTracks)
 
   class Props(var tracks: List<Track>): RProps()
 }
