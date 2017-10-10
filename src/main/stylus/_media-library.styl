@@ -9,7 +9,28 @@
   .folder > .name, .track
     cursor pointer
 
-  .folder-content
-    display none
+  .folder
+    > .folder-content
+      display none
+    > .name > .folder-icon
+      background-image url("/web/folder.png")
+      background-size contain
+      display inline-block
+      width 13px
+      height 13px
+      margin-right 4px
+
     &.opened
-      display block
+      > .folder-content
+        display block
+      > .name > .folder-icon
+        background-image url("/web/folder_open.png")
+
+  .track
+    .file-icon
+      background-image url("/web/note.png")
+      background-size contain
+      display inline-block
+      width 13px
+      height 13px
+      margin-right 2px

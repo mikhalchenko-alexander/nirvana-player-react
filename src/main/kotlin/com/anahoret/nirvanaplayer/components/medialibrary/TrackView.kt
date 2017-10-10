@@ -21,7 +21,7 @@ class TrackView: ReactDOMStatelessComponent<TrackView.Props>() {
     div("track") {
       style = jsstyle { marginLeft = "${props.treeNodeMargin}px" }
       draggable = Draggable.true_
-
+      span("file-icon")
       +"${props.track.title} (${props.track.duration.toTimeString()})"
 
       onDragStartFunction = { e ->

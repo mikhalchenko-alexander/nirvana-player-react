@@ -20,19 +20,21 @@ class FolderView: ReactDOMStatelessComponent<FolderView.Props>() {
   companion object: ReactComponentSpec<FolderView, Props, ReactComponentNoState>
 
   override fun ReactDOMBuilder.render() {
-    div("folder") {
+    val openedClass = if (props.folder.isOpened) " opened" else ""
+    div("folder$openedClass") {
       style = jsstyle { marginLeft = "${props.treeNodeMargin}px" }
       draggable = Draggable.true_
 
       span("name") {
+        span("folder-icon")
         +("${props.folder.name}${if (props.folder.isEmpty()) " (empty)" else ""}")
 
         onClickFunction = {
           PlayerDispatcher.dispatch(MediaLibraryFolderOpenToggle(props.folder.id))
         }
       }
-      val openedClass = if (props.folder.isOpened) " opened" else ""
-      div("folder-content$openedClass") {
+
+      div("folder-content") {
         props.folder.folders.forEach { subFolder ->
           FolderView {
             folder = subFolder
