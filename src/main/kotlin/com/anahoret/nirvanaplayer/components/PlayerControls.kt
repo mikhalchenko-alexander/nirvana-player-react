@@ -1,5 +1,6 @@
 package com.anahoret.nirvanaplayer.components
 
+import com.anahoret.nirvanaplayer.components.slider.Slider
 import kotlinx.html.div
 import org.jetbrains.react.RProps
 import org.jetbrains.react.ReactComponentNoState
@@ -12,12 +13,19 @@ class PlayerControls: ReactDOMStatelessComponent<PlayerControls.Props>() {
 
   override fun ReactDOMBuilder.render() {
     div("player-controls") {
-      PreviousButton {}
-      StopButton {}
-      PlayPauseButton {
-        play = true
+      div("buttons") {
+        PreviousButton {}
+        StopButton {}
+        PlayPauseButton {
+          play = true
+        }
+        NextButton {}
       }
-      NextButton {}
+      div("progress-slider") {
+        Slider {
+          horizontal = true
+        }
+      }
     }
   }
 
