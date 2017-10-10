@@ -57,7 +57,7 @@ class FolderView: ReactDOMStatelessComponent<FolderView.Props>() {
         dragEvent.dataTransfer?.let { dataTransfer ->
           dataTransfer.setData("type", "folder")
           dataTransfer.setData("id", props.folder.id.toString())
-          dataTransfer.setDragImage(document.create.img { src = "/web/folder_white.png" }, 13, 13)
+          dataTransfer.setDragImage(document.create.img { src = "/web/folder.png" }, 13, 13)
         }
       }
     }

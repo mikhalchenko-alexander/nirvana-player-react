@@ -31,7 +31,7 @@ class TrackView: ReactDOMStatelessComponent<TrackView.Props>() {
         dragEvent.dataTransfer?.let { dataTransfer ->
           dataTransfer.setData("type", "track")
           dataTransfer.setData("id", props.track.id.toString())
-          dataTransfer.setDragImage(document.create.img { src = "/web/note_white.png" }, 13, 13)
+          dataTransfer.setDragImage(document.create.img { src = "/web/note.png" }, 13, 13)
         }
       }
     }
