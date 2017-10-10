@@ -40,7 +40,7 @@ class Playlist: ReactDOMStatelessComponent<Playlist.Props>() {
 
       onDropFunction = { e ->
         e.preventDefault()
-
+        @Suppress("UNCHECKED_CAST_TO_NATIVE_INTERFACE")
         val dragEvent = e as DragEventInit
         dragEvent.dataTransfer?.apply {
           val draggableType = getData("type")

@@ -2,11 +2,9 @@ package com.anahoret.nirvanaplayer.components.medialibrary
 
 import com.anahoret.nirvanaplayer.stores.model.Track
 import com.anahoret.nirvanaplayer.toTimeString
-import kotlinx.html.Draggable
-import kotlinx.html.div
-import kotlinx.html.draggable
+import kotlinx.html.*
+import kotlinx.html.dom.create
 import kotlinx.html.js.onDragStartFunction
-import kotlinx.html.style
 import org.jetbrains.react.RProps
 import org.jetbrains.react.ReactComponentNoState
 import org.jetbrains.react.ReactComponentSpec
@@ -14,6 +12,7 @@ import org.jetbrains.react.dom.ReactDOMBuilder
 import org.jetbrains.react.dom.ReactDOMStatelessComponent
 import org.w3c.dom.DragEventInit
 import runtime.wrappers.jsstyle
+import kotlin.browser.document
 
 class TrackView: ReactDOMStatelessComponent<TrackView.Props>() {
   companion object: ReactComponentSpec<TrackView, Props, ReactComponentNoState>
@@ -32,6 +31,7 @@ class TrackView: ReactDOMStatelessComponent<TrackView.Props>() {
         dragEvent.dataTransfer?.let { dataTransfer ->
           dataTransfer.setData("type", "track")
           dataTransfer.setData("id", props.track.id.toString())
+          dataTransfer.setDragImage(document.create.img { src = "/web/note_white.png" }, 13, 13)
         }
       }
     }

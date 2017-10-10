@@ -4,6 +4,7 @@ import com.anahoret.nirvanaplayer.PlayerDispatcher
 import com.anahoret.nirvanaplayer.stores.model.Folder
 import com.anahoret.nirvanaplayer.stores.MediaLibraryFolderOpenToggle
 import kotlinx.html.*
+import kotlinx.html.dom.create
 import kotlinx.html.js.onClickFunction
 import kotlinx.html.js.onDragStartFunction
 import org.jetbrains.react.RProps
@@ -13,6 +14,7 @@ import org.jetbrains.react.dom.ReactDOMBuilder
 import org.jetbrains.react.dom.ReactDOMStatelessComponent
 import org.w3c.dom.DragEventInit
 import runtime.wrappers.jsstyle
+import kotlin.browser.document
 
 class FolderView: ReactDOMStatelessComponent<FolderView.Props>() {
   companion object: ReactComponentSpec<FolderView, Props, ReactComponentNoState>
@@ -53,6 +55,7 @@ class FolderView: ReactDOMStatelessComponent<FolderView.Props>() {
         dragEvent.dataTransfer?.let { dataTransfer ->
           dataTransfer.setData("type", "folder")
           dataTransfer.setData("id", props.folder.id.toString())
+          dataTransfer.setDragImage(document.create.img { src = "/web/folder_white.png" }, 13, 13)
         }
       }
     }
