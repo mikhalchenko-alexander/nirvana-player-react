@@ -13,13 +13,20 @@ class PlayerControls: ReactDOMStatelessComponent<PlayerControls.Props>() {
 
   override fun ReactDOMBuilder.render() {
     div("player-controls") {
-      div("buttons") {
-        PreviousButton {}
-        StopButton {}
-        PlayPauseButton {
-          play = true
+      div("player-controls-wrapper") {
+        div("buttons") {
+          PreviousButton {}
+          StopButton {}
+          PlayPauseButton {
+            play = true
+          }
+          NextButton {}
         }
-        NextButton {}
+        div("volume-slider") {
+          Slider {
+            horizontal = true
+          }
+        }
       }
       div("progress-slider") {
         Slider {
