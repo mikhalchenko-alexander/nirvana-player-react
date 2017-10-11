@@ -8,6 +8,7 @@ import org.jetbrains.react.ReactComponentSpec
 import org.jetbrains.react.dom.ReactDOMBuilder
 import org.jetbrains.react.dom.ReactDOMStatelessComponent
 import org.w3c.dom.HTMLDivElement
+import org.w3c.dom.events.Event
 import org.w3c.dom.events.MouseEvent
 import kotlin.browser.document
 import kotlin.browser.window
@@ -20,35 +21,12 @@ class Slider: ReactDOMStatelessComponent<Slider.Props>() {
     val orientationClass = if (props.horizontal) "horizontal" else "vertical"
     div("slider $orientationClass") {
       div("handle") {
-        onMouseDownFunction = { mde ->
-          val mouseDownEvent = mde.asDynamic().nativeEvent as MouseEvent
-          val handle = mouseDownEvent.target as HTMLDivElement
-          val slider = handle.parentElement as HTMLDivElement
-          val handleCoords = handle.getCoords()
-          val shiftX = mouseDownEvent.pageX - handleCoords.left
-          val sliderCoords = slider.getCoords()
+        val mouseDownHandler =
+          if (props.horizontal) ::horizontalSliderMouseDownEventHandler
+          else ::verticalSliderMouseDownEventHandler
 
-          document.onmousemove = { mme ->
-            val mouseMoveEvent = mme as MouseEvent
-            var newLeft = mouseMoveEvent.pageX - shiftX - sliderCoords.left
-            if (newLeft < 0) {
-              newLeft = 0.0
-            }
-            val rightEdge = slider.offsetWidth - handle.offsetWidth
-            if (newLeft > rightEdge) {
-              newLeft = rightEdge.toDouble()
-            }
+        onMouseDownFunction = mouseDownHandler
 
-            handle.style.left = "${newLeft}px"
-            Unit
-          }
-
-          document.onmouseup = { _ ->
-            document.onmousemove = null
-            document.onmouseup = null
-            Unit
-          }
-        }
       }
     }
   }
@@ -57,6 +35,66 @@ class Slider: ReactDOMStatelessComponent<Slider.Props>() {
     val box = getBoundingClientRect()
 
     return RelativeCoords(box.left + window.pageXOffset, box.top + window.pageYOffset)
+  }
+
+  private fun horizontalSliderMouseDownEventHandler(mde: Event) {
+    val mouseDownEvent = mde.asDynamic().nativeEvent as MouseEvent
+    val handle = mouseDownEvent.target as HTMLDivElement
+    val slider = handle.parentElement as HTMLDivElement
+    val handleCoords = handle.getCoords()
+    val shiftX = mouseDownEvent.pageX - handleCoords.left
+    val sliderCoords = slider.getCoords()
+
+    document.onmousemove = { mme ->
+      val mouseMoveEvent = mme as MouseEvent
+      var newLeft = mouseMoveEvent.pageX - shiftX - sliderCoords.left
+      if (newLeft < 0) {
+        newLeft = 0.0
+      }
+      val rightEdge = slider.offsetWidth - handle.offsetWidth
+      if (newLeft > rightEdge) {
+        newLeft = rightEdge.toDouble()
+      }
+
+      handle.style.left = "${newLeft}px"
+      Unit
+    }
+
+    document.onmouseup = { _ ->
+      document.onmousemove = null
+      document.onmouseup = null
+      Unit
+    }
+  }
+
+  private fun verticalSliderMouseDownEventHandler(mde: Event) {
+    val mouseDownEvent = mde.asDynamic().nativeEvent as MouseEvent
+    val handle = mouseDownEvent.target as HTMLDivElement
+    val slider = handle.parentElement as HTMLDivElement
+    val handleCoords = handle.getCoords()
+    val shiftY = mouseDownEvent.pageY - handleCoords.top
+    val sliderCoords = slider.getCoords()
+
+    document.onmousemove = { mme ->
+      val mouseMoveEvent = mme as MouseEvent
+      var newTop = mouseMoveEvent.pageY - shiftY - sliderCoords.top
+      if (newTop < 0) {
+        newTop = 0.0
+      }
+      val bottomEdge = slider.offsetHeight - handle.offsetHeight
+      if (newTop > bottomEdge) {
+        newTop = bottomEdge.toDouble()
+      }
+
+      handle.style.top = "${newTop}px"
+      Unit
+    }
+
+    document.onmouseup = { _ ->
+      document.onmousemove = null
+      document.onmouseup = null
+      Unit
+    }
   }
 
   private class RelativeCoords(val left: Double, val top: Double)
