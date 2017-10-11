@@ -8,7 +8,7 @@ import org.jetbrains.react.ReactComponentSpec
 import org.jetbrains.react.dom.ReactDOMBuilder
 import org.jetbrains.react.dom.ReactDOMStatelessComponent
 import org.w3c.dom.HTMLDivElement
-import org.w3c.dom.events.MouseEventInit
+import org.w3c.dom.events.MouseEvent
 import kotlin.browser.document
 import kotlin.browser.window
 
@@ -20,17 +20,17 @@ class Slider: ReactDOMStatelessComponent<Slider.Props>() {
     val orientationClass = if (props.horizontal) "horizontal" else "vertical"
     div("slider $orientationClass") {
       div("handle") {
-        onMouseDownFunction = { e ->
-          val mouseDownEvent = e as MouseEventInit
-          val handle = e.target as HTMLDivElement
+        onMouseDownFunction = { mde ->
+          val mouseDownEvent = mde.asDynamic().nativeEvent as MouseEvent
+          val handle = mouseDownEvent.target as HTMLDivElement
           val slider = handle.parentElement as HTMLDivElement
           val handleCoords = handle.getCoords()
-          val shiftX = mouseDownEvent.asDynamic().pageX as Int - handleCoords.left
+          val shiftX = mouseDownEvent.pageX - handleCoords.left
           val sliderCoords = slider.getCoords()
 
-          document.onmousemove = { e ->
-            val mouseMoveEvent = e as MouseEventInit
-            var newLeft = mouseMoveEvent.asDynamic().pageX as Int - shiftX - sliderCoords.left
+          document.onmousemove = { mme ->
+            val mouseMoveEvent = mme as MouseEvent
+            var newLeft = mouseMoveEvent.pageX - shiftX - sliderCoords.left
             if (newLeft < 0) {
               newLeft = 0.0
             }
