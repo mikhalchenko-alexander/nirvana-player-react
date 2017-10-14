@@ -2,28 +2,7 @@ $slider-color = aqua
 $handle-radius = 9px
 
 .slider
-  border 1px solid $slider-color
-  border-radius 3px
-
-  &.horizontal
+  input
+    display inline-block
     width 100%
-    height 3px
-
-    .handle
-      top -3px
-      right 0
-
-  &.vertical
-    height 100%
-    width 3px
-
-    .handle
-      left -3px
-      top 0
-
-  .handle
-    position relative
-    width $handle-radius
-    height $handle-radius
-    background-color $slider-color
-    border-radius $handle-radius
+    margin 0

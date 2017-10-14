@@ -6,6 +6,8 @@ import com.anahoret.nirvanaplayer.components.playlist.Playlist
 import com.anahoret.nirvanaplayer.stores.model.Folder
 import com.anahoret.nirvanaplayer.stores.MediaLibraryStore
 import com.anahoret.nirvanaplayer.stores.PlaylistStore
+import com.anahoret.nirvanaplayer.stores.ProgressSliderStore
+import com.anahoret.nirvanaplayer.stores.VolumeSliderStore
 import com.anahoret.nirvanaplayer.stores.model.Track
 import org.jetbrains.react.RProps
 import org.jetbrains.react.RState
@@ -37,12 +39,31 @@ class Player: ReactDOMComponent<Player.Props, Player.State>() {
       }
     }
 
+    VolumeSliderStore.subscribe {
+      when(it) {
+        is ChangeEvent -> setState {
+          volumeValue = VolumeSliderStore.getState().value
+        }
+      }
+    }
+
+    ProgressSliderStore.subscribe {
+      when(it) {
+        is ChangeEvent -> setState {
+          progressValue = ProgressSliderStore.getState().value
+        }
+      }
+    }
+
   }
 
   override fun ReactDOMBuilder.render() {
     div("player-view") {
       div("left-panel") {
-        PlayerControls {}
+        PlayerControls {
+          volumeValue = state.volumeValue
+          progressValue = state.progressValue
+        }
         MediaLibrary {
           folder = state.folder
         }
@@ -57,7 +78,10 @@ class Player: ReactDOMComponent<Player.Props, Player.State>() {
     }
   }
 
-  class State(var folder: Folder? = null, var playlistTracks: List<Track> = emptyList()): RState
+  class State(var folder: Folder? = null,
+              var playlistTracks: List<Track> = emptyList(),
+              var volumeValue: Int = 100,
+              var progressValue: Int = 0): RState
   class Props: RProps()
 
 }

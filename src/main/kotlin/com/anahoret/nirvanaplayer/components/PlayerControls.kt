@@ -24,18 +24,21 @@ class PlayerControls: ReactDOMStatelessComponent<PlayerControls.Props>() {
         }
         div("volume-slider") {
           Slider {
-            horizontal = true
+            tag = "volume"
+            value = props.volumeValue
           }
+          div { +"${props.volumeValue}%" }
         }
       }
       div("progress-slider") {
         Slider {
-          horizontal = true
+          tag = "progress"
+          value = props.progressValue
         }
       }
     }
   }
 
-  class Props: RProps()
+  class Props(var volumeValue: Int, var progressValue: Int): RProps()
 
 }
