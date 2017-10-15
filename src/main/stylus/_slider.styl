@@ -1,8 +1,89 @@
-$slider-color = aqua
-$handle-radius = 9px
+@import "_constants.styl"
+
+$track-width = 3px
+$handle-radius = 10px
+$handle-color = aqua
+$track-color = $block-border-color
 
 .slider
-  input
-    display inline-block
-    width 100%
+  input[type=range]
+    -webkit-appearance none
     margin 0
+    padding 0
+    width 100%
+
+    &:focus {
+      outline none
+    }
+
+    &::-moz-focus-inner
+      border 0
+
+    &::-webkit-slider-runnable-track
+      width 100%
+      height $track-width
+      cursor pointer
+      animate 0.2s
+      background $track-color
+      border-radius $track-width
+
+    &::-webkit-slider-thumb
+      border none
+      height $handle-radius
+      width $handle-radius
+      border-radius $handle-radius
+      background $handle-color
+      cursor pointer
+      -webkit-appearance none
+      margin-top -($handle-radius / 2) + ($track-width / 2)
+
+    &:focus::-webkit-slider-runnable-track
+      background $track-color
+
+    &::-moz-range-track
+      width 100%
+      height $track-width
+      cursor pointer
+      animate 0.2s
+      background $track-color
+      border-radius $track-width
+
+    &::-moz-range-thumb
+      border none
+      height $handle-radius
+      width $handle-radius
+      border-radius $handle-radius
+      background $handle-color
+      cursor pointer
+
+    &::-ms-track
+      width 100%
+      height $track-width
+      cursor pointer
+      animate 0.2s
+      background transparent
+      border-color transparent
+      border-width 16px 0
+      color transparent
+
+    &::-ms-fill-lower
+      background $track-color
+      border-radius $track-width
+
+    &::-ms-fill-upper
+      background $track-color
+      border-radius $track-width
+
+    &::-ms-thumb
+      border none
+      height $handle-radius
+      width $handle-radius
+      border-radius $handle-radius
+      background $handle-color
+      cursor pointer
+
+    &:focus::-ms-fill-lower
+      background $track-color
+
+    &:focus::-ms-fill-upper
+      background $track-color

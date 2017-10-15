@@ -11,7 +11,7 @@ module.exports = function(env) {
   const MODE = getMode(env);
 
   const config = {
-    entry: path.resolve(__dirname, "build/classes/kotlin/main/nirvana-player-react.js"),
+    entry: ["babel-polyfill", path.resolve(__dirname, "build/classes/kotlin/main/nirvana-player-react.js")],
     output: {
       path: path.resolve(__dirname, "build"),
       filename: "bundle.js"
@@ -21,7 +21,8 @@ module.exports = function(env) {
       rules: [
         {
           test: /\.styl$/,
-          loader: 'style-loader!css-loader!stylus-loader'
+          use: ['style-loader', 'css-loader', 'postcss-loader', 'stylus-loader']
+          // loader: 'style-loader!css-loader!postcss-loader!stylus-loader'
         },
         {
           test: /\.js$/,

@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "kotlin": "1.1.50",
     "kotlinx-html-js": "0.6.4",
     "react": "15.6.1",
@@ -7,6 +8,7 @@
   },
   "devDependencies": {
     "css-loader": "^0.28.7",
+    "postcss-loader": "^2.0.8",
     "source-map-loader": "^0.2.1",
     "style-loader": "^0.18.2",
     "stylus": "0.54.5",
