@@ -42,12 +42,11 @@ class Player: ReactDOMComponent<Player.Props, Player.State>() {
           playlistPlayingTrack = playListState.playingTrack
           isPlaying = playListState.isPlaying
 
-          document.getElementById("audio-player")?.also { element ->
-            val audioElement = element as HTMLAudioElement
-            if (audioElement.paused && playListState.isPlaying) {
-              audioElement.play()
-            } else if (!audioElement.paused && !playListState.isPlaying) {
-              audioElement.pause()
+          audioPlayer()?.also { audio ->
+            if (audio.paused && playListState.isPlaying) {
+              audio.play()
+            } else if (!audio.paused && !playListState.isPlaying) {
+              audio.pause()
             }
           }
         }
@@ -58,6 +57,9 @@ class Player: ReactDOMComponent<Player.Props, Player.State>() {
       when(it) {
         is ChangeEvent -> setState {
           volumeValue = VolumeSliderStore.getState().value
+          audioPlayer()?.also { audio ->
+            audio.volume = volumeValue.toDouble() / 100
+          }
         }
       }
     }
@@ -96,6 +98,9 @@ class Player: ReactDOMComponent<Player.Props, Player.State>() {
 
     }
   }
+
+  private fun audioPlayer(): HTMLAudioElement? =
+    document.getElementById("audio-player") as HTMLAudioElement
 
   class State(var folder: Folder? = null,
               var playlistTracks: List<Track> = emptyList(),
