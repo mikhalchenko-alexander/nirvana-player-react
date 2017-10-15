@@ -1,9 +1,10 @@
 package com.anahoret.nirvanaplayer.components.playlist
 
 import com.anahoret.nirvanaplayer.PlayerDispatcher
-import com.anahoret.nirvanaplayer.stores.TracksRemovedAction
+import com.anahoret.nirvanaplayer.stores.TrackSelectedAction
 import com.anahoret.nirvanaplayer.stores.model.Track
 import com.anahoret.nirvanaplayer.toTimeString
+import kotlinx.html.classes
 import kotlinx.html.js.onClickFunction
 import kotlinx.html.td
 import kotlinx.html.tr
@@ -18,14 +19,16 @@ class TrackRow: ReactDOMStatelessComponent<TrackRow.Props>() {
 
   override fun ReactDOMBuilder.render() {
     tr("track-row") {
+      if (props.selected) classes += "selected"
+
       td { +props.track.artist }
       td { +props.track.title }
       td { +props.track.album }
       td { +props.track.duration.toTimeString() }
 
-      onClickFunction = { PlayerDispatcher.dispatch(TracksRemovedAction(props.track)) }
+      onClickFunction = { PlayerDispatcher.dispatch(TrackSelectedAction(props.track)) }
     }
   }
 
-  class Props(var track: Track): RProps()
+  class Props(var track: Track, var selected: Boolean): RProps()
 }

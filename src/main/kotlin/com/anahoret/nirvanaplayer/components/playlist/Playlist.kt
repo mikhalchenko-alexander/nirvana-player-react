@@ -31,6 +31,7 @@ class Playlist: ReactDOMStatelessComponent<Playlist.Props>() {
           props.tracks.forEach {
             TrackRow {
               track = it
+              selected = it == props.selectedTrack
             }
           }
         }
@@ -64,5 +65,5 @@ class Playlist: ReactDOMStatelessComponent<Playlist.Props>() {
     }
   }
 
-  class Props(var tracks: List<Track>): RProps()
+  class Props(var tracks: List<Track>, var selectedTrack: Track?): RProps()
 }

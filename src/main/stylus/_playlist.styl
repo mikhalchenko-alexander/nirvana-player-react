@@ -17,5 +17,10 @@
       width 25%
 
     tbody
+      tr
+        cursor pointer
       tr:nth-child(odd)
         background-color darken($block-background-color, 20%)
+      tr.selected {
+        background-color dodgerblue
+      }

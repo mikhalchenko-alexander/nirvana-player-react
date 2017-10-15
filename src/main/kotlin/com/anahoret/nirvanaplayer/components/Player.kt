@@ -34,7 +34,9 @@ class Player: ReactDOMComponent<Player.Props, Player.State>() {
     PlaylistStore.subscribe {
       when(it) {
         is ChangeEvent -> setState {
-          playlistTracks = PlaylistStore.getState().tracks
+          val playListState = PlaylistStore.getState()
+          playlistTracks = playListState.tracks
+          playlistSelectedTrack = playListState.selectedTrack
         }
       }
     }
@@ -72,6 +74,7 @@ class Player: ReactDOMComponent<Player.Props, Player.State>() {
       div("right-panel") {
         Playlist {
           tracks = state.playlistTracks
+          selectedTrack = state.playlistSelectedTrack
         }
       }
 
@@ -80,6 +83,7 @@ class Player: ReactDOMComponent<Player.Props, Player.State>() {
 
   class State(var folder: Folder? = null,
               var playlistTracks: List<Track> = emptyList(),
+              var playlistSelectedTrack: Track? = null,
               var volumeValue: Int = 100,
               var progressValue: Int = 0): RState
   class Props: RProps()
