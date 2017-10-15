@@ -2,7 +2,7 @@ package com.anahoret.nirvanaplayer.components.medialibrary
 
 import com.anahoret.nirvanaplayer.PlayerDispatcher
 import com.anahoret.nirvanaplayer.stores.model.Folder
-import com.anahoret.nirvanaplayer.stores.MediaLibraryFolderOpenToggle
+import com.anahoret.nirvanaplayer.stores.MediaLibraryFolderOpenToggleAction
 import kotlinx.html.*
 import kotlinx.html.dom.create
 import kotlinx.html.js.onClickFunction
@@ -30,7 +30,7 @@ class FolderView: ReactDOMStatelessComponent<FolderView.Props>() {
         +("${props.folder.name}${if (props.folder.isEmpty()) " (empty)" else ""}")
 
         onClickFunction = {
-          PlayerDispatcher.dispatch(MediaLibraryFolderOpenToggle(props.folder.id))
+          PlayerDispatcher.dispatch(MediaLibraryFolderOpenToggleAction(props.folder.id))
         }
       }
 

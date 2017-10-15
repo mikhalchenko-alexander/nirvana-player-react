@@ -5,6 +5,7 @@ import com.anahoret.nirvanaplayer.PlayerDispatcher
 import com.anahoret.nirvanaplayer.stores.model.Track
 
 data class PlayListState(val tracks: List<Track>, val selectedTrack: Track?)
+
 data class TracksAddedAction(val tracks: List<Track>) {
   constructor(track: Track): this(listOf(track))
 }

@@ -5,8 +5,10 @@ import com.anahoret.nirvanaplayer.PlayerDispatcher
 import com.anahoret.nirvanaplayer.dto.FolderDto
 import com.anahoret.nirvanaplayer.stores.model.Folder
 
-class MediaLibraryLoaded(val rootFolder: FolderDto)
-class MediaLibraryFolderOpenToggle(val folderId: Long)
+data class MediaLibraryState(val rootFolder: Folder?)
+
+data class MediaLibraryLoadedAction(val rootFolder: FolderDto)
+data class MediaLibraryFolderOpenToggleAction(val folderId: Long)
 
 object MediaLibraryStore : FluxReduceStore<MediaLibraryState>(PlayerDispatcher) {
 
@@ -14,13 +16,12 @@ object MediaLibraryStore : FluxReduceStore<MediaLibraryState>(PlayerDispatcher) 
 
   override fun reduce(state: MediaLibraryState, action: Any): MediaLibraryState =
     when (action) {
-      is MediaLibraryLoaded -> MediaLibraryState(Folder(action.rootFolder))
+      is MediaLibraryLoadedAction -> MediaLibraryState(Folder(action.rootFolder))
 
-      is MediaLibraryFolderOpenToggle -> MediaLibraryState(state.rootFolder?.toggleOpen(action.folderId))
-      
+      is MediaLibraryFolderOpenToggleAction -> MediaLibraryState(state.rootFolder?.toggleOpen(action.folderId))
+
       else -> state
     }
 
 }
 
-class MediaLibraryState(val rootFolder: Folder?)

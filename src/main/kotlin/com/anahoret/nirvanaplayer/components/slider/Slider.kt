@@ -1,7 +1,7 @@
 package com.anahoret.nirvanaplayer.components.slider
 
 import com.anahoret.nirvanaplayer.PlayerDispatcher
-import com.anahoret.nirvanaplayer.stores.SliderValueChanged
+import com.anahoret.nirvanaplayer.stores.SliderValueChangedAction
 import kotlinx.html.InputType
 import kotlinx.html.div
 import kotlinx.html.input
@@ -26,7 +26,7 @@ class Slider: ReactDOMStatelessComponent<Slider.Props>() {
         value = "${props.value}"
 
         onChangeFunction = { e ->
-          PlayerDispatcher.dispatch(SliderValueChanged(props.tag, e.inputValue.toInt()))
+          PlayerDispatcher.dispatch(SliderValueChangedAction(props.tag, e.inputValue.toInt()))
         }
       }
     }
