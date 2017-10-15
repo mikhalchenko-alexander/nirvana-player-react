@@ -7,7 +7,7 @@ data class SliderState(val value: Int)
 
 data class SliderValueChangedAction(val tag: String, val value: Int)
 
-abstract class SliderStore(val tag: String): FluxReduceStore<SliderState>(PlayerDispatcher) {
+abstract class SliderStore(private val tag: String): FluxReduceStore<SliderState>(PlayerDispatcher) {
   override fun getInitialState(): SliderState = SliderState(0)
   override fun reduce(state: SliderState, action: Any): SliderState = when (action) {
     is SliderValueChangedAction -> if (action.tag == tag) SliderState(action.value) else state
