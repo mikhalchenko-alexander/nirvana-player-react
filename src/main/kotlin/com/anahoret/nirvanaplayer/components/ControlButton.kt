@@ -1,7 +1,9 @@
 package com.anahoret.nirvanaplayer.components
 
 import com.anahoret.nirvanaplayer.PlayerDispatcher
+import com.anahoret.nirvanaplayer.stores.NextButtonClickedAction
 import com.anahoret.nirvanaplayer.stores.PlayButtonClickedAction
+import com.anahoret.nirvanaplayer.stores.PreviousButtonClickedAction
 import kotlinx.html.div
 import kotlinx.html.js.onClickFunction
 import org.jetbrains.react.RProps
@@ -65,6 +67,8 @@ class PreviousButton: ReactDOMStatelessComponent<PreviousButton.Props>() {
     ControlButton {
       classes = "btn-previous"
       +"|<"
+
+      onClickFunction = { PlayerDispatcher.dispatch(PreviousButtonClickedAction()) }
     }
   }
 
@@ -78,6 +82,8 @@ class NextButton: ReactDOMStatelessComponent<NextButton.Props>() {
     ControlButton {
       classes = "btn-next"
       +">|"
+
+      onClickFunction = { PlayerDispatcher.dispatch(NextButtonClickedAction()) }
     }
   }
 
