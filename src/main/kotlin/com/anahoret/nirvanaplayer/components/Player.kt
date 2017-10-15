@@ -16,6 +16,8 @@ import kotlinx.html.*
 import org.jetbrains.react.ReactComponentSpec
 import org.jetbrains.react.dom.ReactDOMBuilder
 import org.jetbrains.react.dom.ReactDOMComponent
+import org.w3c.dom.HTMLAudioElement
+import kotlin.browser.document
 
 class Player: ReactDOMComponent<Player.Props, Player.State>() {
   companion object: ReactComponentSpec<Player, Props, State>
@@ -38,6 +40,16 @@ class Player: ReactDOMComponent<Player.Props, Player.State>() {
           playlistTracks = playListState.tracks
           playlistSelectedTrack = playListState.selectedTrack
           playlistPlayingTrack = playListState.playingTrack
+          isPlaying = playListState.isPlaying
+
+          document.getElementById("audio-player")?.also { element ->
+            val audioElement = element as HTMLAudioElement
+            if (audioElement.paused && playListState.isPlaying) {
+              audioElement.play()
+            } else if (!audioElement.paused && !playListState.isPlaying) {
+              audioElement.pause()
+            }
+          }
         }
       }
     }
@@ -67,6 +79,7 @@ class Player: ReactDOMComponent<Player.Props, Player.State>() {
           volumeValue = state.volumeValue
           progressValue = state.progressValue
           playingTrack = state.playlistPlayingTrack
+          isPlaying = state.isPlaying
           trackUrl = props.trackUrl
         }
         MediaLibrary {
@@ -88,6 +101,7 @@ class Player: ReactDOMComponent<Player.Props, Player.State>() {
               var playlistTracks: List<Track> = emptyList(),
               var playlistSelectedTrack: Track? = null,
               var playlistPlayingTrack: Track? = null,
+              var isPlaying: Boolean = false,
               var volumeValue: Int = 100,
               var progressValue: Int = 0): RState
   class Props(var trackUrl: String): RProps()

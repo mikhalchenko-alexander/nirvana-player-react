@@ -4,6 +4,7 @@ import com.anahoret.nirvanaplayer.components.slider.Slider
 import com.anahoret.nirvanaplayer.stores.model.Track
 import kotlinx.html.audio
 import kotlinx.html.div
+import kotlinx.html.id
 import org.jetbrains.react.RProps
 import org.jetbrains.react.ReactComponentNoState
 import org.jetbrains.react.ReactComponentSpec
@@ -17,6 +18,7 @@ class PlayerControls: ReactDOMStatelessComponent<PlayerControls.Props>() {
     div("player-controls") {
       div("player-controls-wrapper") {
         audio {
+          id = "audio-player"
           props.playingTrack?.let { curTrack ->
             src = "${props.trackUrl}/${curTrack.id}"
           }
@@ -25,7 +27,7 @@ class PlayerControls: ReactDOMStatelessComponent<PlayerControls.Props>() {
           PreviousButton {}
           StopButton {}
           PlayPauseButton {
-            play = true
+            isPlaying = props.isPlaying
           }
           NextButton {}
         }
@@ -49,6 +51,12 @@ class PlayerControls: ReactDOMStatelessComponent<PlayerControls.Props>() {
     }
   }
 
-  class Props(var volumeValue: Int, var progressValue: Int, var playingTrack: Track?, var trackUrl: String): RProps()
+  class Props(
+    var volumeValue: Int,
+    var progressValue: Int,
+    var playingTrack: Track?,
+    var isPlaying: Boolean,
+    var trackUrl: String
+  ): RProps()
 
 }
