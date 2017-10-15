@@ -12,12 +12,20 @@ object PlayerDispatcher: Dispatcher()
 fun main(args: Array<String>) {
   val root = document.getElementById("player-root")
   if (root != null) {
-    runtime.wrappers.require("Style/player.styl")
-    ReactDOM.render(root) {
-      div {
-        Player {}
+    val trackRoot = root.getAttribute("data-track-url")
+    if (trackRoot != null) {
+      runtime.wrappers.require("Style/player.styl")
+      ReactDOM.render(root) {
+        div {
+          Player {
+            trackUrl = trackRoot
+          }
+        }
       }
+    } else {
+      println("Can't find 'data-track-url' attribute on root node.")
     }
+
   } else {
     println("Can't find root node (#player-root).")
   }

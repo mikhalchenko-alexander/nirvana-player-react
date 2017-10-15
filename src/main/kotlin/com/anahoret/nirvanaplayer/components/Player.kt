@@ -37,6 +37,7 @@ class Player: ReactDOMComponent<Player.Props, Player.State>() {
           val playListState = PlaylistStore.getState()
           playlistTracks = playListState.tracks
           playlistSelectedTrack = playListState.selectedTrack
+          playlistPlayingTrack = playListState.playingTrack
         }
       }
     }
@@ -65,6 +66,8 @@ class Player: ReactDOMComponent<Player.Props, Player.State>() {
         PlayerControls {
           volumeValue = state.volumeValue
           progressValue = state.progressValue
+          playingTrack = state.playlistPlayingTrack
+          trackUrl = props.trackUrl
         }
         MediaLibrary {
           folder = state.folder
@@ -84,8 +87,9 @@ class Player: ReactDOMComponent<Player.Props, Player.State>() {
   class State(var folder: Folder? = null,
               var playlistTracks: List<Track> = emptyList(),
               var playlistSelectedTrack: Track? = null,
+              var playlistPlayingTrack: Track? = null,
               var volumeValue: Int = 100,
               var progressValue: Int = 0): RState
-  class Props: RProps()
+  class Props(var trackUrl: String): RProps()
 
 }

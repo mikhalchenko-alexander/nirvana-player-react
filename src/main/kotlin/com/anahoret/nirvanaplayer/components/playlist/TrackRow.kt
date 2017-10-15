@@ -1,6 +1,7 @@
 package com.anahoret.nirvanaplayer.components.playlist
 
 import com.anahoret.nirvanaplayer.PlayerDispatcher
+import com.anahoret.nirvanaplayer.stores.TrackPlayAction
 import com.anahoret.nirvanaplayer.stores.TrackSelectedAction
 import com.anahoret.nirvanaplayer.stores.model.Track
 import com.anahoret.nirvanaplayer.toTimeString
@@ -26,7 +27,13 @@ class TrackRow: ReactDOMStatelessComponent<TrackRow.Props>() {
       td { +props.track.album }
       td { +props.track.duration.toTimeString() }
 
-      onClickFunction = { PlayerDispatcher.dispatch(TrackSelectedAction(props.track)) }
+      onClickFunction = {
+        if (props.selected) {
+          PlayerDispatcher.dispatch(TrackPlayAction(props.track))
+        } else {
+          PlayerDispatcher.dispatch(TrackSelectedAction(props.track))
+        }
+      }
     }
   }
 
