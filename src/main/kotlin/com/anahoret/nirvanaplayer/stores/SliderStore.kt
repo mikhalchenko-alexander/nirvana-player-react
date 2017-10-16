@@ -2,11 +2,13 @@ package com.anahoret.nirvanaplayer.stores
 
 import com.anahoret.flux.FluxReduceStore
 import com.anahoret.nirvanaplayer.PlayerDispatcher
+import com.anahoret.nirvanaplayer.stores.model.Track
 
 data class SliderState(val value: Int, val minValue: Int, val maxValue: Int)
 
 abstract class SliderAction { abstract val tag: String }
 data class SliderValueChangedAction(override val tag: String, val value: Int): SliderAction()
+data class TrackChangedAction(val track: Track)
 
 abstract class SliderStore(val tag: String): FluxReduceStore<SliderState>(PlayerDispatcher) {
   override fun getInitialState(): SliderState =
@@ -31,7 +33,7 @@ object ProgressSliderStore: SliderStore("progress") {
   override fun reduce(state: SliderState, action: Any): SliderState {
     val st = super.reduce(state, action)
     return when (action) {
-      is TrackPlayAction -> st.copy(maxValue = action.track.duration)
+      is TrackChangedAction -> st.copy(maxValue = action.track.duration)
       else -> st
     }
   }

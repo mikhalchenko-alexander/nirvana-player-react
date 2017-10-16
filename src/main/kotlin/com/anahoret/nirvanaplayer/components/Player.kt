@@ -1,13 +1,11 @@
 package com.anahoret.nirvanaplayer.components
 
 import com.anahoret.flux.ChangeEvent
+import com.anahoret.nirvanaplayer.PlayerDispatcher
 import com.anahoret.nirvanaplayer.components.medialibrary.MediaLibrary
 import com.anahoret.nirvanaplayer.components.playlist.Playlist
+import com.anahoret.nirvanaplayer.stores.*
 import com.anahoret.nirvanaplayer.stores.model.Folder
-import com.anahoret.nirvanaplayer.stores.MediaLibraryStore
-import com.anahoret.nirvanaplayer.stores.PlaylistStore
-import com.anahoret.nirvanaplayer.stores.ProgressSliderStore
-import com.anahoret.nirvanaplayer.stores.VolumeSliderStore
 import com.anahoret.nirvanaplayer.stores.model.Track
 import org.jetbrains.react.RProps
 import org.jetbrains.react.RState
@@ -77,7 +75,16 @@ class Player: ReactDOMComponent<Player.Props, Player.State>() {
 
   override fun componentDidUpdate(prevProps: RProps, prevState: RState) {
     super.componentDidUpdate(prevProps, prevState)
+    val prevTrack = prevState.asDynamic().playlistPlayingTrack as Track?
+    val trackChanged = prevTrack != state.playlistPlayingTrack
+    if (trackChanged) {
+      state.playlistPlayingTrack?.also {
+        PlayerDispatcher.dispatch(TrackChangedAction(it))
+      }
+    }
+
     audioPlayer()?.also { audio ->
+      if (trackChanged) audio.currentTime = 0.0
       if (state.isPlaying) {
         audio.play()
       } else {

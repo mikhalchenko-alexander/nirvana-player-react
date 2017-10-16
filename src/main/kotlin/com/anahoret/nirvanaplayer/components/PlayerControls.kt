@@ -2,6 +2,7 @@ package com.anahoret.nirvanaplayer.components
 
 import com.anahoret.nirvanaplayer.PlayerDispatcher
 import com.anahoret.nirvanaplayer.components.slider.Slider
+import com.anahoret.nirvanaplayer.stores.NextTrackAction
 import com.anahoret.nirvanaplayer.stores.ProgressSliderStore
 import com.anahoret.nirvanaplayer.stores.SliderValueChangedAction
 import com.anahoret.nirvanaplayer.stores.VolumeSliderStore
@@ -10,6 +11,7 @@ import com.anahoret.nirvanaplayer.toTimeString
 import kotlinx.html.audio
 import kotlinx.html.div
 import kotlinx.html.id
+import kotlinx.html.js.onEndedFunction
 import kotlinx.html.js.onTimeUpdateFunction
 import org.jetbrains.react.RProps
 import org.jetbrains.react.ReactComponentNoState
@@ -32,9 +34,13 @@ class PlayerControls: ReactDOMStatelessComponent<PlayerControls.Props>() {
             src = "${props.trackUrl}/${curTrack.id}"
           }
 
-          onTimeUpdateFunction = { e->
+          onTimeUpdateFunction = { _ ->
             val audio = document.getElementById(audioId) as HTMLAudioElement
             PlayerDispatcher.dispatch(SliderValueChangedAction(ProgressSliderStore.tag, audio.currentTime.toInt()))
+          }
+
+          onEndedFunction = {
+            PlayerDispatcher.dispatch(NextTrackAction())
           }
         }
         div("buttons") {

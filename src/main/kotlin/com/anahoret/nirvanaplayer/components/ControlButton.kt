@@ -1,9 +1,9 @@
 package com.anahoret.nirvanaplayer.components
 
 import com.anahoret.nirvanaplayer.PlayerDispatcher
-import com.anahoret.nirvanaplayer.stores.NextButtonClickedAction
-import com.anahoret.nirvanaplayer.stores.PlayButtonClickedAction
-import com.anahoret.nirvanaplayer.stores.PreviousButtonClickedAction
+import com.anahoret.nirvanaplayer.stores.NextTrackAction
+import com.anahoret.nirvanaplayer.stores.PlayTrackToggleAction
+import com.anahoret.nirvanaplayer.stores.PreviousTrackAction
 import kotlinx.html.div
 import kotlinx.html.js.onClickFunction
 import org.jetbrains.react.RProps
@@ -40,7 +40,7 @@ class PlayPauseButton: ReactDOMStatelessComponent<PlayPauseButton.Props>() {
         +">"
       }
 
-      onClickFunction = { PlayerDispatcher.dispatch(PlayButtonClickedAction()) }
+      onClickFunction = { PlayerDispatcher.dispatch(PlayTrackToggleAction()) }
     }
   }
 
@@ -68,7 +68,7 @@ class PreviousButton: ReactDOMStatelessComponent<PreviousButton.Props>() {
       classes = "btn-previous"
       +"|<"
 
-      onClickFunction = { PlayerDispatcher.dispatch(PreviousButtonClickedAction()) }
+      onClickFunction = { PlayerDispatcher.dispatch(PreviousTrackAction()) }
     }
   }
 
@@ -83,7 +83,7 @@ class NextButton: ReactDOMStatelessComponent<NextButton.Props>() {
       classes = "btn-next"
       +">|"
 
-      onClickFunction = { PlayerDispatcher.dispatch(NextButtonClickedAction()) }
+      onClickFunction = { PlayerDispatcher.dispatch(NextTrackAction()) }
     }
   }
 
