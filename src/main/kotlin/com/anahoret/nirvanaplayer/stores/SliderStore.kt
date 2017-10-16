@@ -5,7 +5,8 @@ import com.anahoret.nirvanaplayer.PlayerDispatcher
 
 data class SliderState(val value: Int, val minValue: Int, val maxValue: Int)
 
-data class SliderValueChangedAction(val tag: String, val value: Int)
+abstract class SliderAction { abstract val tag: String }
+data class SliderValueChangedAction(override val tag: String, val value: Int): SliderAction()
 
 abstract class SliderStore(val tag: String): FluxReduceStore<SliderState>(PlayerDispatcher) {
   override fun getInitialState(): SliderState =
@@ -14,9 +15,13 @@ abstract class SliderStore(val tag: String): FluxReduceStore<SliderState>(Player
       minValue = 0,
       maxValue = 100
     )
-  override fun reduce(state: SliderState, action: Any): SliderState = when (action) {
-    is SliderValueChangedAction -> if (action.tag == tag) state.copy(value = action.value) else state
-    else -> state
+  override fun reduce(state: SliderState, action: Any): SliderState {
+    if (action !is SliderAction) return state
+    if (action.tag != tag) return state
+    return when (action) {
+      is SliderValueChangedAction -> state.copy(value = action.value)
+      else -> state
+    }
   }
 }
 

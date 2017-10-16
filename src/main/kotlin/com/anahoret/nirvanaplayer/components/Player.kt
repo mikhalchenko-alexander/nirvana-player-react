@@ -67,9 +67,16 @@ class Player: ReactDOMComponent<Player.Props, Player.State>() {
     ProgressSliderStore.subscribe {
       when(it) {
         is ChangeEvent -> setState {
-          progressValue = ProgressSliderStore.getState().value
-          progressMinValue = ProgressSliderStore.getState().minValue
-          progressMaxValue = ProgressSliderStore.getState().maxValue
+          val newState = ProgressSliderStore.getState()
+          progressValue = newState.value
+          progressMinValue = newState.minValue
+          progressMaxValue = newState.maxValue
+
+          audioPlayer()?.also {
+            if (kotlin.math.abs(it.currentTime - newState.value).toInt() >= 1) {
+              it.currentTime = newState.value.toDouble()
+            }
+          }
         }
       }
     }
