@@ -41,14 +41,6 @@ class Player: ReactDOMComponent<Player.Props, Player.State>() {
           playlistSelectedTrack = playListState.selectedTrack
           playlistPlayingTrack = playListState.playingTrack
           isPlaying = playListState.isPlaying
-
-          audioPlayer()?.also { audio ->
-            if (audio.paused && playListState.isPlaying) {
-              audio.play()
-            } else if (!audio.paused && !playListState.isPlaying) {
-              audio.pause()
-            }
-          }
         }
       }
     }
@@ -81,6 +73,17 @@ class Player: ReactDOMComponent<Player.Props, Player.State>() {
       }
     }
 
+  }
+
+  override fun componentDidUpdate(prevProps: RProps, prevState: RState) {
+    super.componentDidUpdate(prevProps, prevState)
+    audioPlayer()?.also { audio ->
+      if (state.isPlaying) {
+        audio.play()
+      } else {
+        audio.pause()
+      }
+    }
   }
 
   override fun ReactDOMBuilder.render() {
