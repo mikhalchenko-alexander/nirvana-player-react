@@ -18,6 +18,7 @@ data class TracksRemovedAction(val tracks: List<Track>) {
 }
 data class TrackSelectedAction(val track: Track)
 data class TrackPlayAction(val track: Track)
+class TrackStopAction
 class PlayTrackToggleAction
 class PreviousTrackAction
 class NextTrackAction
@@ -37,6 +38,7 @@ object PlaylistStore: FluxReduceStore<PlayListState>(PlayerDispatcher) {
     is TracksRemovedAction -> state.copy(tracks = state.tracks - action.tracks)
     is TrackSelectedAction -> state.copy(selectedTrack = action.track)
     is TrackPlayAction -> state.copy(playingTrack = action.track)
+    is TrackStopAction -> state.copy(isPlaying = false)
     is PlayTrackToggleAction -> state.copy(isPlaying = !state.isPlaying)
     is PreviousTrackAction -> {
       state.playingTrack?.let { track ->

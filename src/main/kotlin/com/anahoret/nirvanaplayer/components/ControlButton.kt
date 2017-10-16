@@ -4,6 +4,7 @@ import com.anahoret.nirvanaplayer.PlayerDispatcher
 import com.anahoret.nirvanaplayer.stores.NextTrackAction
 import com.anahoret.nirvanaplayer.stores.PlayTrackToggleAction
 import com.anahoret.nirvanaplayer.stores.PreviousTrackAction
+import com.anahoret.nirvanaplayer.stores.TrackStopAction
 import kotlinx.html.div
 import kotlinx.html.js.onClickFunction
 import org.jetbrains.react.RProps
@@ -11,7 +12,9 @@ import org.jetbrains.react.ReactComponentNoState
 import org.jetbrains.react.ReactComponentSpec
 import org.jetbrains.react.dom.ReactDOMBuilder
 import org.jetbrains.react.dom.ReactDOMStatelessComponent
+import org.w3c.dom.HTMLAudioElement
 import org.w3c.dom.events.Event
+import kotlin.browser.document
 
 private class ControlButton: ReactDOMStatelessComponent<ControlButton.Props>() {
   companion object: ReactComponentSpec<ControlButton, Props, ReactComponentNoState>
@@ -54,6 +57,12 @@ class StopButton: ReactDOMStatelessComponent<StopButton.Props>() {
     ControlButton {
       classes = "btn-stop"
       +"|=|"
+
+      onClickFunction = {
+        val audio = document.getElementById("audio-player") as HTMLAudioElement
+        PlayerDispatcher.dispatch(TrackStopAction())
+        audio.currentTime = 0.0
+      }
     }
   }
 
