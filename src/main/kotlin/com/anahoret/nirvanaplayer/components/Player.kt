@@ -68,6 +68,8 @@ class Player: ReactDOMComponent<Player.Props, Player.State>() {
       when(it) {
         is ChangeEvent -> setState {
           progressValue = ProgressSliderStore.getState().value
+          progressMinValue = ProgressSliderStore.getState().minValue
+          progressMaxValue = ProgressSliderStore.getState().maxValue
         }
       }
     }
@@ -80,6 +82,8 @@ class Player: ReactDOMComponent<Player.Props, Player.State>() {
         PlayerControls {
           volumeValue = state.volumeValue
           progressValue = state.progressValue
+          progressMinValue = state.progressMinValue
+          progressMaxValue = state.progressMaxValue
           playingTrack = state.playlistPlayingTrack
           isPlaying = state.isPlaying
           trackUrl = props.trackUrl
@@ -109,7 +113,10 @@ class Player: ReactDOMComponent<Player.Props, Player.State>() {
               var playlistPlayingTrack: Track? = null,
               var isPlaying: Boolean = false,
               var volumeValue: Int = 100,
-              var progressValue: Int = 0): RState
+              var progressValue: Int = 0,
+              var progressMinValue: Int = 0,
+              var progressMaxValue: Int = 100
+  ): RState
 
   class Props(
     var mediaLibraryUrl: String,
