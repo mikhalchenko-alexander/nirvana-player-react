@@ -28,12 +28,18 @@ fun main(args: Array<String>) {
     return
   }
 
+  val iconsRoot = root.getAttribute("data-icons-url")
+  if (iconsRoot == null) {
+    println("Can't find 'data-icons-url' attribute on root node.")
+  }
+
   runtime.wrappers.require("Style/player.styl")
   ReactDOM.render(root) {
     div {
       Player {
         mediaLibraryUrl = mediaLibraryRoot
         trackUrl = trackRoot
+        iconsUrl = iconsRoot ?: ""
       }
     }
   }

@@ -26,7 +26,12 @@ class FolderView: ReactDOMStatelessComponent<FolderView.Props>() {
       draggable = Draggable.true_
 
       span("name") {
-        span("folder-icon")
+        span("folder-icon") {
+          style = jsstyle { backgroundImage =
+            if (props.folder.isOpened) "url('${props.iconsUrl}/folder_open.png')"
+            else "url('${props.iconsUrl}/folder.png')"
+          }
+        }
         +("${props.folder.name}${if (props.folder.isEmpty()) " (empty)" else ""}")
 
         onClickFunction = {
@@ -39,6 +44,7 @@ class FolderView: ReactDOMStatelessComponent<FolderView.Props>() {
           FolderView {
             folder = subFolder
             treeNodeMargin = MediaLibrary.TREE_NODE_MARGIN
+            iconsUrl = props.iconsUrl
           }
         }
 
@@ -46,6 +52,7 @@ class FolderView: ReactDOMStatelessComponent<FolderView.Props>() {
           TrackView {
             track = t
             treeNodeMargin = MediaLibrary.TREE_NODE_MARGIN
+            iconsUrl = props.iconsUrl
           }
         }
       }
@@ -57,11 +64,13 @@ class FolderView: ReactDOMStatelessComponent<FolderView.Props>() {
         dragEvent.dataTransfer?.let { dataTransfer ->
           dataTransfer.setData("type", "folder")
           dataTransfer.setData("id", props.folder.id.toString())
-          dataTransfer.setDragImage(document.create.img { src = "/web/folder.png" }, 13, 13)
+          dataTransfer.setDragImage(document.create.img { src = "${props.iconsUrl}/folder.png" }, 13, 13)
         }
       }
     }
   }
 
-  class Props(var folder: Folder, var treeNodeMargin: Int): RProps()
+  class Props(var folder: Folder,
+              var treeNodeMargin: Int,
+              var iconsUrl: String): RProps()
 }

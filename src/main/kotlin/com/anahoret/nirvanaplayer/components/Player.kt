@@ -108,6 +108,7 @@ class Player: ReactDOMComponent<Player.Props, Player.State>() {
         MediaLibrary {
           folder = state.folder
           url = props.mediaLibraryUrl
+          iconsUrl = props.iconsUrl
         }
       }
 
@@ -137,6 +138,7 @@ class Player: ReactDOMComponent<Player.Props, Player.State>() {
 
   class Props(
     var mediaLibraryUrl: String,
-    var trackUrl: String): RProps()
+    var trackUrl: String,
+    var iconsUrl: String): RProps()
 
 }

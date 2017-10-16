@@ -22,6 +22,7 @@ class MediaLibrary: ReactDOMStatelessComponent<MediaLibrary.Props>() {
         FolderView {
           folder = rootFolder
           treeNodeMargin = 0
+          iconsUrl = props.iconsUrl
         }
       }
     }
@@ -33,5 +34,7 @@ class MediaLibrary: ReactDOMStatelessComponent<MediaLibrary.Props>() {
       .then({ PlayerDispatcher.dispatch(MediaLibraryLoadedAction(it)) })
   }
 
-  class Props(var folder: Folder?, var url: String): RProps()
+  class Props(var folder: Folder?,
+              var url: String,
+              var iconsUrl: String): RProps()
 }

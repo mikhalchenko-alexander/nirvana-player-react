@@ -21,7 +21,9 @@ class TrackView: ReactDOMStatelessComponent<TrackView.Props>() {
     div("track") {
       style = jsstyle { marginLeft = "${props.treeNodeMargin}px" }
       draggable = Draggable.true_
-      span("file-icon")
+      span("file-icon") {
+        style = jsstyle { backgroundImage = "url('${props.iconsUrl}/note.png')" }
+      }
       +"${props.track.title} (${props.track.duration.toTimeString()})"
 
       onDragStartFunction = { e ->
@@ -31,11 +33,13 @@ class TrackView: ReactDOMStatelessComponent<TrackView.Props>() {
         dragEvent.dataTransfer?.let { dataTransfer ->
           dataTransfer.setData("type", "track")
           dataTransfer.setData("id", props.track.id.toString())
-          dataTransfer.setDragImage(document.create.img { src = "/web/note.png" }, 13, 13)
+          dataTransfer.setDragImage(document.create.img { src = "${props.iconsUrl}/note.png" }, 13, 13)
         }
       }
     }
   }
 
-  class Props(var track: Track, var treeNodeMargin: Int): RProps()
+  class Props(var track: Track,
+              var treeNodeMargin: Int,
+              var iconsUrl: String): RProps()
 }
