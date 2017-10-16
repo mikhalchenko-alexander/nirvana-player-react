@@ -86,6 +86,7 @@ class Player: ReactDOMComponent<Player.Props, Player.State>() {
         }
         MediaLibrary {
           folder = state.folder
+          url = props.mediaLibraryUrl
         }
       }
 
@@ -109,6 +110,9 @@ class Player: ReactDOMComponent<Player.Props, Player.State>() {
               var isPlaying: Boolean = false,
               var volumeValue: Int = 100,
               var progressValue: Int = 0): RState
-  class Props(var trackUrl: String): RProps()
+
+  class Props(
+    var mediaLibraryUrl: String,
+    var trackUrl: String): RProps()
 
 }

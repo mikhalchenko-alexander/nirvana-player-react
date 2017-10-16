@@ -11,22 +11,30 @@ object PlayerDispatcher: Dispatcher()
 
 fun main(args: Array<String>) {
   val root = document.getElementById("player-root")
-  if (root != null) {
-    val trackRoot = root.getAttribute("data-track-url")
-    if (trackRoot != null) {
-      runtime.wrappers.require("Style/player.styl")
-      ReactDOM.render(root) {
-        div {
-          Player {
-            trackUrl = trackRoot
-          }
-        }
-      }
-    } else {
-      println("Can't find 'data-track-url' attribute on root node.")
-    }
-
-  } else {
+  if (root == null) {
     println("Can't find root node (#player-root).")
+    return
+  }
+
+  val mediaLibraryRoot = root.getAttribute("data-media-library-url")
+  if (mediaLibraryRoot == null) {
+    println("Can't find 'data-media-library-url' attribute on root node.")
+    return
+  }
+
+  val trackRoot = root.getAttribute("data-track-url")
+  if (trackRoot == null) {
+    println("Can't find 'data-track-url' attribute on root node.")
+    return
+  }
+
+  runtime.wrappers.require("Style/player.styl")
+  ReactDOM.render(root) {
+    div {
+      Player {
+        mediaLibraryUrl = mediaLibraryRoot
+        trackUrl = trackRoot
+      }
+    }
   }
 }

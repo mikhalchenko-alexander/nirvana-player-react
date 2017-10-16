@@ -16,11 +16,6 @@ class MediaLibrary: ReactDOMStatelessComponent<MediaLibrary.Props>() {
     const val TREE_NODE_MARGIN = 10
   }
 
-  init {
-    loadMediaLibrary()
-      .then({ PlayerDispatcher.dispatch(MediaLibraryLoadedAction(it)) })
-  }
-
   override fun ReactDOMBuilder.render() {
     div("media-library") {
       props.folder?.let { rootFolder ->
@@ -32,5 +27,11 @@ class MediaLibrary: ReactDOMStatelessComponent<MediaLibrary.Props>() {
     }
   }
 
-  class Props(var folder: Folder?): RProps()
+  override fun componentWillMount() {
+    super.componentWillMount()
+    loadMediaLibrary(props.url)
+      .then({ PlayerDispatcher.dispatch(MediaLibraryLoadedAction(it)) })
+  }
+
+  class Props(var folder: Folder?, var url: String): RProps()
 }
