@@ -9,25 +9,24 @@ module.exports = function(env) {
   }
 
   const MODE = getMode(env);
-
+  var bundleName;
+  if (MODE === 'prod') {
+    bundleName = 'bundle.min.js'
+  } else {
+    bundleName = 'bundle.js'
+  }
+  
   const config = {
     entry: ["babel-polyfill", path.resolve(__dirname, "build/classes/kotlin/main/nirvana-player-react.js")],
     output: {
       path: path.resolve(__dirname, "build"),
-      filename: "bundle.js"
+      filename: bundleName
     },
-    devtool: '#source-map',
     module: {
       rules: [
         {
           test: /\.styl$/,
           use: ['style-loader', 'css-loader', 'postcss-loader', 'stylus-loader']
-          // loader: 'style-loader!css-loader!postcss-loader!stylus-loader'
-        },
-        {
-          test: /\.js$/,
-          use: ['source-map-loader'],
-          enforce: "pre"
         }
       ]
     },
