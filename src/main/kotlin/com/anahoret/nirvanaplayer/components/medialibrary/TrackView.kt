@@ -39,7 +39,11 @@ class TrackView: ReactDOMStatelessComponent<TrackView.Props>() {
     }
   }
 
-  class Props(var track: Track,
-              var treeNodeMargin: Int,
-              var iconsUrl: String): RProps()
+  override fun shouldComponentUpdate(nextProps: Props, nextState: ReactComponentNoState): Boolean = props.isVisible
+
+  class Props(
+    var isVisible: Boolean,
+    var track: Track,
+    var treeNodeMargin: Int,
+    var iconsUrl: String): RProps()
 }

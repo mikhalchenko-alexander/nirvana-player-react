@@ -20,6 +20,7 @@ class FolderView: ReactDOMStatelessComponent<FolderView.Props>() {
   companion object: ReactComponentSpec<FolderView, Props, ReactComponentNoState>
 
   override fun ReactDOMBuilder.render() {
+    if (!props.isVisible) return
     val openedClass = if (props.folder.isOpened) " opened" else ""
     div("folder$openedClass") {
       style = jsstyle { marginLeft = "${props.treeNodeMargin}px" }
@@ -27,9 +28,10 @@ class FolderView: ReactDOMStatelessComponent<FolderView.Props>() {
 
       span("name") {
         span("folder-icon") {
-          style = jsstyle { backgroundImage =
-            if (props.folder.isOpened) "url('${props.iconsUrl}/folder_open.png')"
-            else "url('${props.iconsUrl}/folder.png')"
+          style = jsstyle {
+            backgroundImage =
+              if (props.folder.isOpened) "url('${props.iconsUrl}/folder_open.png')"
+              else "url('${props.iconsUrl}/folder.png')"
           }
         }
         +("${props.folder.name}${if (props.folder.isEmpty()) " (empty)" else ""}")
@@ -42,6 +44,7 @@ class FolderView: ReactDOMStatelessComponent<FolderView.Props>() {
       div("folder-content") {
         props.folder.folders.forEach { subFolder ->
           FolderView {
+            isVisible = props.folder.isOpened
             folder = subFolder
             treeNodeMargin = MediaLibrary.TREE_NODE_MARGIN
             iconsUrl = props.iconsUrl
@@ -50,6 +53,7 @@ class FolderView: ReactDOMStatelessComponent<FolderView.Props>() {
 
         props.folder.tracks.forEach { t ->
           TrackView {
+            isVisible = props.folder.isOpened
             track = t
             treeNodeMargin = MediaLibrary.TREE_NODE_MARGIN
             iconsUrl = props.iconsUrl
@@ -70,7 +74,17 @@ class FolderView: ReactDOMStatelessComponent<FolderView.Props>() {
     }
   }
 
-  class Props(var folder: Folder,
-              var treeNodeMargin: Int,
-              var iconsUrl: String): RProps()
+  override fun shouldComponentUpdate(nextProps: Props, nextState: ReactComponentNoState): Boolean =
+    nextProps.isVisible && !props.isVisible || openChanged(nextProps.folder, props.folder)
+
+  private fun openChanged(f1: Folder, f2: Folder): Boolean {
+    if (f1.isOpened != f2.isOpened) return true
+    return f1.folders.zip(f2.folders).any { openChanged(it.first, it.second) }
+  }
+
+  class Props(
+    var isVisible: Boolean = false,
+    var folder: Folder,
+    var treeNodeMargin: Int,
+    var iconsUrl: String): RProps()
 }

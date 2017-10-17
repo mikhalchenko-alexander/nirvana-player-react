@@ -20,6 +20,7 @@ class MediaLibrary: ReactDOMStatelessComponent<MediaLibrary.Props>() {
     div("media-library") {
       props.folder?.let { rootFolder ->
         FolderView {
+          isVisible = true
           folder = rootFolder
           treeNodeMargin = 0
           iconsUrl = props.iconsUrl

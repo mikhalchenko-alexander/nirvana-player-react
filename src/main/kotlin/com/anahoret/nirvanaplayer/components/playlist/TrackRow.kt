@@ -37,5 +37,8 @@ class TrackRow: ReactDOMStatelessComponent<TrackRow.Props>() {
     }
   }
 
+  override fun shouldComponentUpdate(nextProps: Props, nextState: ReactComponentNoState): Boolean =
+    nextProps.selected != props.selected
+
   class Props(var track: Track, var selected: Boolean): RProps()
 }
