@@ -41,22 +41,23 @@ class FolderView: ReactDOMStatelessComponent<FolderView.Props>() {
         }
       }
 
-      div("folder-content") {
-        props.folder.folders.forEach { subFolder ->
-          FolderView {
-            isVisible = props.folder.isOpened
-            folder = subFolder
-            treeNodeMargin = MediaLibrary.TREE_NODE_MARGIN
-            iconsUrl = props.iconsUrl
+      if (props.folder.isOpened) {
+        div("folder-content") {
+          props.folder.folders.forEach { subFolder ->
+            FolderView {
+              isVisible = props.folder.isOpened
+              folder = subFolder
+              treeNodeMargin = MediaLibrary.TREE_NODE_MARGIN
+              iconsUrl = props.iconsUrl
+            }
           }
-        }
 
-        props.folder.tracks.forEach { t ->
-          TrackView {
-            isVisible = props.folder.isOpened
-            track = t
-            treeNodeMargin = MediaLibrary.TREE_NODE_MARGIN
-            iconsUrl = props.iconsUrl
+          props.folder.tracks.forEach { t ->
+            TrackView {
+              track = t
+              treeNodeMargin = MediaLibrary.TREE_NODE_MARGIN
+              iconsUrl = props.iconsUrl
+            }
           }
         }
       }
