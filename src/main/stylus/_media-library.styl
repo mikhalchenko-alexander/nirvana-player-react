@@ -3,13 +3,17 @@
 .media-library
   display flex
   flex-grow 1
-  padding 3px
+  padding-left 3px
   overflow-y auto
+  width 517px
 
   .folder > .name, .track
     cursor pointer
 
   .folder
+    text-overflow ellipsis
+    overflow-x hidden
+    white-space nowrap
     > .folder-content
       display none
     > .name > .folder-icon
