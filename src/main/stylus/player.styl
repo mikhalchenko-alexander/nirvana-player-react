@@ -3,14 +3,13 @@
 @import "_player-controls.styl"
 @import "_playlist.styl"
 
-html, body, #player-root, [data-reactroot]
+#player-root, [data-reactroot]
   height 100%
-
-body
-  color $block-border-color
-  background-color $block-background-color
+  width 100%
   margin 0
   user-select none
+  color $block-border-color
+  background-color $block-background-color
 
 .player-view
   display flex
